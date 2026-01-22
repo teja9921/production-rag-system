@@ -295,17 +295,18 @@ LLM calls are treated as unreliable dependencies, not sources of truth.
 
 ## 14. Provider Deprecation Handling
 
-Initial integration used Mistral via Hugging Face Inference routing.
-The provider deprecated the endpoint, returning HTTP 410.
+Initial LLM integration used Mistral-7B via Hugging Face Inference routing.
 
-Because the system abstracts the LLM behind a runnable interface,
-we swapped to Meta-Llama-3 without modifying:
-- Retrieval
-- Safety logic
-- Orchestration
-- Prompts
+During testing, the provider deprecated the endpoint, returning HTTP 410.
 
-This validates architectural resilience to provider churn.
+Because the system isolates the LLM behind a runnable interface, we replaced the backend with Meta-Llama-3-8B-Instruct without modifying:
+
+- retrieval
+- safety logic
+- orchestration
+- API layer
+
+This validated the architectural goal of model-provider decoupling and operational resilience.
 
 ## 15. FastAPI Service Layer (Sprint 2)
 
@@ -334,62 +335,4 @@ Separating orchestration from transport ensures:
 - debuggability
 - model and retrieval layer independence
 - future compatibility with UI, streaming, and agents.
-
-## 16. Provider Deprecation Handling
-
-Initial LLM integration used Mistral-7B via Hugging Face Inference routing.
-
-During testing, the provider deprecated the endpoint, returning HTTP 410.
-
-Because the system isolates the LLM behind a runnable interface, we replaced the backend with Meta-Llama-3-8B-Instruct without modifying:
-
-- retrieval
-- safety logic
-- orchestration
-- API layer
-
-This validated the architectural goal of model-provider decoupling and operational resilience.
-
-## 17. Persistence Layer & Stateful Chats (Sprint 3)
-
-We introduced a relational persistence layer to enable:
-
-- multi-turn conversations
-- chat replay
-- auditability
-- future agent memory
-
-### Schema Design
-
-Tables:
-- users
-- conversations
-- messages
-
-Each conversation represents one chat thread.  
-Messages are strictly ordered and persisted.
-
-### Design Principles
-
-- State lives in the database, not in prompts.
-- FastAPI remains stateless.
-- Conversation memory is deterministic and replayable.
-
-### API Evolution
-
-New endpoints:
-- POST /users
-- POST /conversations
-- POST /conversations/{id}/query
-- GET /conversations/{id}/messages
-
-### Rationale
-
-This design enables:
-- resumable chat
-- observability
-- debugging
-- deterministic behavior
-
-and forms the foundation for agentic RAG in later sprints.
 
