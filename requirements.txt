@@ -7,6 +7,7 @@ sentence-transformers
 pypdf
 
 # Web Frameworks
+fastapi
 uvicorn[standard]
 streamlit
 
@@ -15,6 +16,7 @@ pydantic
 pydantic-settings
 requests
 python-dotenv
+
 
 # Type checking (optional, for development)
 mypy
