@@ -1,0 +1,24 @@
+
+# Vector Store & Embeddings
+faiss-cpu
+sentence-transformers
+
+# Document Processing
+pypdf
+
+# Web Frameworks
+uvicorn[standard]
+streamlit
+
+# Utilities
+pydantic
+pydantic-settings
+requests
+python-dotenv
+
+# Type checking (optional, for development)
+mypy
+types-requests
+
+langchain-core
+langgraph

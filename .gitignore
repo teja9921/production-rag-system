@@ -1,0 +1,47 @@
+# -----------------------------
+# Python / Environment
+# -----------------------------
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# -----------------------------
+# Environment variables
+# -----------------------------
+.env
+
+# -----------------------------
+# Local databases
+# -----------------------------
+rag_app.db
+*.sqlite
+*.sqlite3
+
+# -----------------------------
+# Data & Vector Stores
+# -----------------------------
+data/
+vectorstore/
+*.faiss
+*.index
+*.pkl
+
+# -----------------------------
+# Dev / test scripts
+# -----------------------------
+run_graph.py
+create_db.py
+test_db.py
+test_retrieval.py
+ingestion/sample_script.py
+
+# -----------------------------
+# OS / Editor noise
+# -----------------------------
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

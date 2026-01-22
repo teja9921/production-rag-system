@@ -1,0 +1,7 @@
+Question:
+{query}
+
+Sources:
+{sources}
+
+Answer with citations.
