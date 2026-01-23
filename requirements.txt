@@ -17,6 +17,8 @@ pydantic-settings
 requests
 python-dotenv
 
+#Database connector
+sqlalchemy
 
 # Type checking (optional, for development)
 mypy
