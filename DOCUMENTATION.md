@@ -334,5 +334,47 @@ Separating orchestration from transport ensures:
 - testability
 - debuggability
 - model and retrieval layer independence
-- future compatibility with UI, streaming, and agents.
+- future compatibility with UI, streaming, and agents
 
+## 16. Persistence Layer & Stateful Chats (Sprint 3)
+
+We introduced a relational persistence layer to enable:
+
+- multi-turn conversations
+- chat replay
+- auditability
+- future agent memory
+
+### Schema Design
+
+Tables:
+- users
+- conversations
+- messages
+
+Each conversation represents one chat thread.  
+Messages are strictly ordered and persisted.
+
+### Design Principles
+
+- State lives in the database, not in prompts.
+- FastAPI remains stateless.
+- Conversation memory is deterministic and replayable.
+
+### API Evolution
+
+New endpoints:
+- POST /users
+- POST /conversations
+- POST /conversations/{id}/query
+- GET /conversations/{id}/messages
+
+### Rationale
+
+This design enables:
+- resumable chat
+- observability
+- debugging
+- deterministic behavior
+
+and forms the foundation for agentic RAG in later sprints.

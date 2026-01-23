@@ -13,5 +13,14 @@ class QueryResponse(BaseModel):
     answer: Optional[str] = None
     sources: Optional[list[AnswerSource]] = None
 
+class UserResponse(BaseModel):
+    user_id: str
+
+class ConversationResponse(BaseModel):
+    conversation_id: str
+
+class MessageResponse(BaseModel):
+    role: str
+    content: str
 
 
