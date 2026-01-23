@@ -1,0 +1,7 @@
+Conversation context:
+{context}
+
+Original user question:
+{query}
+
+Rewrite the question for optimal document retrieval:

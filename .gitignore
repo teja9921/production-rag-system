@@ -45,3 +45,4 @@ ingestion/sample_script.py
 Thumbs.db
 .vscode/
 .idea/
+rag_chatbot_architecture.tsx
