@@ -10,11 +10,12 @@ from api.schemas import (
     ConversationResponse,
     MessageResponse
 )
-from api.deps import GRAPH
+from api.agent_deps import GRAPH
 from db.session import SessionLocal
 from db import crud
+import textwrap
 
-app = FastAPI(title="Medical RAG API", version="0.2")
+app = FastAPI(title="Medical RAG API", version="0.3")
 
 # ---------- User ----------
 
@@ -43,12 +44,15 @@ def query_conversation(conversation_id: str, payload: QueryRequest):
 
     try:
         crud.add_message(db, conversation_id, "user", payload.query)
-        result = GRAPH.invoke({"query": payload.query})
+        result = GRAPH.invoke({"query": payload.query, "conversation_id": conversation_id})
     except Exception as e:
         db.close()
         raise HTTPException(status_code=500, detail=str(e))
+    
+    status = result.get("status")
 
-    if result.get("status") == "NO_ANSWER":
+    if status == "NO_ANSWER":
+        db=SessionLocal()
         crud.add_message(db, conversation_id, "assistant", "NO_ANSWER")
         db.close()
         return QueryResponse(status = "NO_ANSWER")
@@ -56,12 +60,11 @@ def query_conversation(conversation_id: str, payload: QueryRequest):
     sources = [
         AnswerSource(
             page_number = c["metadata"]["page_number"],
-            content = c["content"]
+            content = textwrap.shorten(c["content"], width=100, placeholder="...")
         )
-            for c in result.get("sources", [])      
+            for c in result.get("retrieved_chunks", [])      
     ]
 
-    crud.add_message(db, conversation_id, "assistant", result.get("answer"))
     db.close()
 
     return QueryResponse(

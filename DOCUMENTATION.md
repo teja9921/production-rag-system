@@ -378,3 +378,89 @@ This design enables:
 - deterministic behavior
 
 and forms the foundation for agentic RAG in later sprints.
+
+## 17. Agentic RAG Architecture (Sprint 4)
+
+We upgraded the system from a stateless RAG pipeline into a stateful, agentic RAG architecture using LangGraph.
+
+### Objectives
+- Enable multi-turn conversations
+- Introduce persistent memory
+- Improve retrieval quality via query rewriting
+- Maintain deterministic, explainable reasoning
+
+### Design Principles
+- Graph-controlled reasoning (no free-form agent loops)
+- Explicit state management
+- Deterministic node execution
+- Database as the single source of truth for memory
+
+---
+
+### Final Agentic Flow
+
+User Query  
+→ Memory Reader  
+→ Query Rewriter  
+→ Retriever  
+→ Answer Generator  
+→ Memory Writer  
+
+---
+
+### Graph State Schema
+
+The agent operates over an explicit state object:
+
+- conversation_id  
+- query (raw user query)  
+- history (conversation memory)  
+- rewritten_query  
+- retrieved_chunks  
+- answer  
+
+This ensures:
+- clean separation of concerns  
+- debuggability  
+- reproducibility  
+
+---
+
+### Memory Strategy
+
+Conversation history is stored in a relational database.
+
+At runtime:
+- Memory Reader fetches recent messages
+- Summarized context is injected into the query rewriting stage
+- Memory Writer persists assistant outputs
+
+This prevents:
+- prompt explosion  
+- hallucinated context  
+- hidden state  
+
+---
+
+### Query Rewriting
+
+A dedicated LLM-based rewriting step expands vague or underspecified queries into retrieval-optimized forms.
+
+Example:
+
+"What is LLM?"  
+→ "Define large language models, their purpose, training process, and key characteristics."
+
+This significantly improves retrieval quality while preserving safety gating.
+
+---
+
+### Rationale
+
+Separating memory handling, query rewriting, retrieval, and generation ensures:
+
+- controlled autonomy  
+- predictable system behavior  
+- production-grade observability  
+
+This architecture supports scalable evolution toward multi-agent systems and advanced reasoning workflows.
