@@ -464,3 +464,84 @@ Separating memory handling, query rewriting, retrieval, and generation ensures:
 - production-grade observability  
 
 This architecture supports scalable evolution toward multi-agent systems and advanced reasoning workflows.
+
+## 18. Streaming + UI Integration (Sprint 5)
+
+This sprint introduced real-time streaming and a production-grade user interface.
+
+### Objectives
+- Eliminate blocking responses
+- Improve perceived latency
+- Provide a ChatGPT-style interaction experience
+- Enable multi-conversation UX
+
+---
+
+### Streaming Architecture
+
+Two execution paths were introduced:
+
+1. Blocking mode (`/query`)  
+   - Full agentic graph  
+   - Deterministic execution  
+   - Used for debugging and testing  
+
+2. Streaming mode (`/stream`)  
+   - Retrieval-only graph  
+   - Streaming LLM generation via SSE  
+   - Used for UI interaction  
+
+This separation prevents:
+- duplicate LLM calls
+- inconsistent memory updates
+- wasted inference cost
+
+---
+
+### Streaming Data Flow
+
+User Query  
+→ Retrieval Graph (memory + rewrite + retrieve)  
+→ Streaming LLM  
+→ Token-by-token response via SSE  
+→ Memory persistence  
+
+This guarantees:
+- single LLM invocation
+- low latency perception
+- real-time feedback  
+
+---
+
+### Streamlit UI Design
+
+The UI was designed as a thin client:
+
+- No business logic
+- No orchestration
+- No LangGraph usage
+- Only FastAPI communication
+
+Features:
+- ChatGPT-style interface
+- Sidebar conversation switching
+- New chat creation
+- Persistent session memory
+- Real-time streaming display
+
+---
+
+### Rationale
+
+Streaming dramatically improves user experience by:
+
+- eliminating blocking latency
+- increasing system responsiveness
+- improving perceived intelligence
+
+Separating blocking and streaming pipelines ensures:
+- system correctness
+- predictable behavior
+- production-grade architecture
+
+This sprint completes the transformation from backend AI system into a user-facing AI product.

@@ -20,6 +20,13 @@ def create_conversation(db: Session, user_id: str)-> models.Conversation:
     db.refresh(convo)
     return convo
 
+def get_user_conversations(db: Session, user_id: str):
+    return (db.query(models.Conversation)
+            .filter(models.Conversation.user_id == user_id)
+            .order_by(models.Conversation.created_at.asc())
+            .all()
+    )
+
 def get_conversation(db: Session, conversation_id: str)-> models.Conversation | None:
     return (db.query(models.Conversation)
             .filter(models.Conversation.id == conversation_id)

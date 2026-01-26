@@ -19,6 +19,8 @@ class UserResponse(BaseModel):
 class ConversationResponse(BaseModel):
     conversation_id: str
 
+class GetConversations(BaseModel):
+    conversations: List[ConversationResponse]
 class MessageResponse(BaseModel):
     role: str
     content: str

@@ -8,14 +8,21 @@ from api.schemas import (
     AnswerSource,
     UserResponse,
     ConversationResponse,
-    MessageResponse
+    MessageResponse,
+    GetConversations
 )
-from api.agent_deps import GRAPH
+from api.agent_deps import GRAPH, RETRIEVAL_GRAPH
 from db.session import SessionLocal
 from db import crud
 import textwrap
+from fastapi.responses import StreamingResponse
+from orchestration.stream_llm import StreamingLLM
+import json
+
+
 
 app = FastAPI(title="Medical RAG API", version="0.3")
+stream_llm = StreamingLLM()
 
 # ---------- User ----------
 
@@ -34,6 +41,18 @@ def create_conversation(user_id:str):
     convo = crud.create_conversation(db, user_id)
     db.close()
     return ConversationResponse(conversation_id= convo.id)
+
+@app.get("/users/{user_id}/conversations", response_model= GetConversations)
+def get_user_conversations(user_id: str):
+    db= SessionLocal()
+    convos = crud.get_user_conversations(db, user_id)
+    db.close()
+    return GetConversations(
+        conversations=[
+        ConversationResponse(conversation_id=c.id)
+        for c in convos
+        ]
+    )
 
 # ---------- Query ----------
 
@@ -93,5 +112,40 @@ def get_messages(conversation_id: str):
         for m in messages
     ]
     
+@app.post("/conversations/{conversation_id}/stream")
+def stream_query(conversation_id: str, payload: QueryRequest):
+
+    db = SessionLocal()
+    convo = crud.get_conversation(db, conversation_id)
+    if not convo: 
+        db.close()
+        raise HTTPException(status_code=404, detail="Conversation not found")
+    
+    crud.add_message(db, conversation_id, "user", payload.query)
+    db.close()
+
+    result = RETRIEVAL_GRAPH.invoke({
+        "conversation_id": conversation_id,
+        "query": payload.query
+    })
+
+    if result.get("status") == "NO_ANSWER":
+        return StreamingResponse(
+            iter(["NO_ANSWER"]),
+            media_type="text/event-stream"
+        )
+    
+    def token_stream():
+        answer_accum = ""
+        for token in stream_llm.stream(payload.query, result["retrieved_chunks"]):
+            answer_accum+= token
+            yield token
+
+        db = SessionLocal()
+        crud.add_message(db, conversation_id, "assistant", answer_accum)
+        db.close()
+
+    return StreamingResponse(token_stream(), media_type="text/event-stream")    
+
 
 
