@@ -26,9 +26,10 @@ def load_pdf(file_path: str) -> List[Dict[str, Any]]:
 
     reader = PdfReader(path)
     documents = []
-
+    print(f"Total pages detected by PdfReader: {len(reader.pages)}")
     for i, page in enumerate(reader.pages):
         raw_text = page.extract_text() or ""
+        print(f"Page {i+1}: {raw_text[:100]}...")  # Print first 100 chars
         # Normalize: Collapse all whitespace into single spaces
         normalized = " ".join(raw_text.split()).strip()
 

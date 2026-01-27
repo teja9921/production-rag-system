@@ -8,6 +8,7 @@ from orchestration.lc_llm import LLMRunnable
 from orchestration.memory import memory_reader, memory_writer
 from orchestration.rewrite import QueryWriter
 from orchestration.agent_graph import build_agentic_graph
+from orchestration.retrieval_graph import build_retrieval_graph
 from api.config import settings 
 
 PDF_FILE = "data/LLM_Interview_Questions.pdf"
@@ -45,3 +46,8 @@ GRAPH = build_agentic_graph(
     memory_write_node = memory_writer
 )
 
+RETRIEVAL_GRAPH = build_retrieval_graph(
+    memory_node = memory_reader,
+    rewrite_node= rewriter,
+    retriever_node= retriever_runnable
+)
