@@ -1,25 +1,26 @@
-# rag/faiss_store.py
-
 import faiss
 import numpy as np
 import pickle
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 
 class FaissStore:
-    def __init__(self, index_path: str, metadata_path: str):
+    def __init__(self, index_path: str, metadata_path: str, dimension: Optional[int] = None):
         self.index_path = Path(index_path)
         self.metadata_path = Path(metadata_path)
         self.index = None
+        self.dim = dimension
         self.metadata: List[Dict[str, Any]] = []
 
     def add_chunks(self, embeddings: np.ndarray, chunks: List[Dict[str, Any]]):
         if embeddings.ndim != 2:
             raise ValueError("Embeddings must be 2D")
 
+        if self.dim is None:
+            self.dim = embeddings.shape[1]
+
         if self.index is None:
-            dim = embeddings.shape[1]
-            self.index = faiss.IndexFlatIP(dim)
+            self.index = faiss.IndexFlatIP(self.dim)
 
         if len(embeddings) != len(chunks):
             raise ValueError("Embedding/chunk length mismatch")

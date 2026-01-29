@@ -14,6 +14,8 @@ class Settings(BaseSettings):
     # ===== Chunking =====
     CHUNK_SIZE: int = 500
     CHUNK_OVERLAP: int = 50
+    MAX_CHARS: int = 1000
+    MIN_CHARS: int = 150
 
     # ===== Retrieval =====
     RETRIEVAL_K: int = 3

@@ -134,7 +134,7 @@ def stream_query(conversation_id: str, payload: QueryRequest):
             iter(["NO_ANSWER"]),
             media_type="text/event-stream"
         )
-    
+
     def token_stream():
         answer_accum = ""
         for token in stream_llm.stream(payload.query, result["retrieved_chunks"]):
