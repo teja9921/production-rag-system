@@ -21,8 +21,8 @@ _dense_retriever = Retriever(_embedder, _faiss_store)
 _hybrid_retriever = HybridRetriever(
     dense = _dense_retriever, 
     sparse = _bm25_store,
-    k_dense = settings.DENSE_K,
-    k_sparse= settings.SPARSE_K
+    k_dense = 5,
+    k_sparse= 5
     )
 
 retriever_runnable = RetrieverRunnable(_hybrid_retriever)
