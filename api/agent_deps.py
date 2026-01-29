@@ -1,5 +1,6 @@
 from rag.embedder import EmbeddingService
 from rag.retriever import Retriever
+from rag.hybrid_retriever import HybridRetriever
 from orchestration.lc_retriever import RetrieverRunnable
 from orchestration.lc_llm import LLMRunnable
 from orchestration.memory import memory_reader, memory_writer
@@ -12,10 +13,19 @@ from api.config import settings
 PDFs = ["data/The_GALE_ENCYCLOPEDIA_of_MEDICINE_SECOND.pdf"]
 
 _embedder = EmbeddingService()
-_store = build_or_load_index(PDFs)
 
-_retriever = Retriever(_embedder, _store)
-retriever_runnable = RetrieverRunnable(_retriever)
+_faiss_store, _bm25_store = build_or_load_index(PDFs)
+
+_dense_retriever = Retriever(_embedder, _faiss_store)
+
+_hybrid_retriever = HybridRetriever(
+    dense = _dense_retriever, 
+    sparse = _bm25_store,
+    k_dense = settings.DENSE_K,
+    k_sparse= settings.SPARSE_K
+    )
+
+retriever_runnable = RetrieverRunnable(_hybrid_retriever)
 
 llm_runnable = LLMRunnable()
 

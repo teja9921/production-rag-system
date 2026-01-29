@@ -18,7 +18,8 @@ class Settings(BaseSettings):
     MIN_CHARS: int = 150
 
     # ===== Retrieval =====
-    RETRIEVAL_K: int = 3
+    DENSE_K: int = 5
+    SPARSE_K: int =5
     SIMILARITY_THRESHOLD: float = 0.45
 
     # ===== Limits =====
