@@ -48,3 +48,4 @@ Thumbs.db
 rag_chatbot_architecture.tsx
 dummy_deps.txt
 logging_comment/
+tests/

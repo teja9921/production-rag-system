@@ -26,3 +26,5 @@ types-requests
 
 langchain-core
 langgraph
+
+rank-bm25
