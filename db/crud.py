@@ -76,3 +76,52 @@ def get_conversation_messages(
             .order_by(models.Message.created_at.asc())
             .all()
         )
+
+# ---------- Conversation Title ----------
+
+def update_conversation_title(
+    db: Session, 
+    conversation_id: str, 
+    title: str
+) -> models.Conversation:
+    """
+    Update the title of a conversation.
+    
+    Args:
+        db: Database session
+        conversation_id: ID of conversation to update
+        title: New title (will be trimmed and truncated to 200 chars)
+    
+    Returns:
+        Updated Conversation object
+    
+    Raises:
+        ValueError: If conversation not found or title is invalid
+    """
+    # Fetch conversation
+    convo = db.query(models.Conversation).filter(
+        models.Conversation.id == conversation_id
+    ).first()
+    
+    if not convo:
+        raise ValueError(f"Conversation {conversation_id} not found")
+    
+    # Validate title
+    if not title or len(title.strip()) == 0:
+        raise ValueError("Title cannot be empty")
+    
+    # Sanitize and truncate
+    sanitized_title = title.strip()
+    if len(sanitized_title) > 200:
+        sanitized_title = sanitized_title[:197] + "..."
+    
+    # Update
+    convo.title = sanitized_title
+    
+    try:
+        db.commit()
+        db.refresh(convo)
+        return convo
+    except Exception as e:
+        db.rollback()
+        raise Exception(f"Failed to update conversation title: {e}")

@@ -1,6 +1,6 @@
 from typing import List, Optional, Any, Dict, Literal
 from pydantic import BaseModel, Field
-
+from datetime import datetime
 class QueryRequest(BaseModel):
     query: str = Field(..., min_length=3, max_length=1000)
 
@@ -18,6 +18,8 @@ class UserResponse(BaseModel):
 
 class ConversationResponse(BaseModel):
     conversation_id: str
+    title: str | None = None
+    created_at: datetime | None = None
 
 class GetConversations(BaseModel):
     conversations: List[ConversationResponse]
