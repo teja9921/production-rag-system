@@ -545,3 +545,30 @@ Separating blocking and streaming pipelines ensures:
 - production-grade architecture
 
 This sprint completes the transformation from backend AI system into a user-facing AI product.
+
+## 19. Retrieval Intelligence Upgrade (Sprint 6)
+
+### Problem
+Initial vector-only retrieval showed:
+- Weak recall for short queries
+- Poor keyword matching
+- Hallucinated answers due to low-relevance context
+
+### Solution Architecture
+Semantic Chunking → Hybrid Retrieval (BM25 + FAISS) → Cross-Encoder Reranking → LLM Answering
+
+### Design Decisions
+- BM25 added for lexical recall.
+- Cross-encoder added to learn true semantic relevance.
+- Reranking executed post-retrieval to preserve recall + improve precision.
+- Scoring removed from retrieval stage; final relevance computed by reranker.
+
+### Trade-offs
+- Increased latency (~100–300ms per query).
+- Higher CPU usage.
+- Major improvement in answer quality and grounding.
+
+### Outcome
+- Significant retrieval precision improvement.
+- Hallucination reduction.
+- More consistent citation grounding.

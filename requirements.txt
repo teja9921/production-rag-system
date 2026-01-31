@@ -10,6 +10,7 @@ pypdf
 fastapi
 uvicorn[standard]
 streamlit
+streamlit-js-eval
 
 # Utilities
 pydantic

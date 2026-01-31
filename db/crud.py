@@ -11,6 +11,20 @@ def create_user(db: Session)->models.User:
     db.refresh(user)
     return user
 
+def add_user(db: Session, user_id: str)->models.User:
+    user = models.User(id = user_id)
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return user
+
+def get_user(db: Session, user_id:str)->models.User:
+    return (
+        db.query(models.User)
+        .filter(models.User.id == user_id)
+        .first()
+      )
+
 # ---------- Conversations ----------
 
 def create_conversation(db: Session, user_id: str)-> models.Conversation:
@@ -23,7 +37,7 @@ def create_conversation(db: Session, user_id: str)-> models.Conversation:
 def get_user_conversations(db: Session, user_id: str):
     return (db.query(models.Conversation)
             .filter(models.Conversation.user_id == user_id)
-            .order_by(models.Conversation.created_at.asc())
+            .order_by(models.Conversation.created_at.desc())
             .all()
     )
 

@@ -19,17 +19,26 @@ from fastapi.responses import StreamingResponse
 from orchestration.stream_llm import StreamingLLM
 import json
 
-
-
 app = FastAPI(title="Medical RAG API", version="0.3")
 stream_llm = StreamingLLM()
 
 # ---------- User ----------
 
 @app.post("/users", response_model= UserResponse)
-def create_user():
+def create_user(payload: dict | None =None):
     db = SessionLocal()
-    user = crud.create_user(db)
+
+    if payload and "user_id" in payload:
+        user = crud.get_user(db, payload["user_id"])
+        if user:
+            db.close()
+            return UserResponse(user_id= user.id)
+        
+        user = crud.add_user(db, payload["user_id"])
+
+    else:
+        user = crud.create_user(db)
+    
     db.close()
     return UserResponse(user_id= user.id)
 
@@ -38,13 +47,26 @@ def create_user():
 @app.post("/conversations", response_model=ConversationResponse)
 def create_conversation(user_id:str):
     db= SessionLocal()
+
+    user = crud.get_user(db, user_id)
+    if not user:
+        db.close()
+        raise HTTPException(status_code=404, detail = "User not found")
+    
     convo = crud.create_conversation(db, user_id)
     db.close()
+
     return ConversationResponse(conversation_id= convo.id)
 
 @app.get("/users/{user_id}/conversations", response_model= GetConversations)
 def get_user_conversations(user_id: str):
     db= SessionLocal()
+
+    user = crud.get_user(db, user_id)
+    if not user:
+        db.close()
+        raise HTTPException(status_code=404, detail="User not found")
+    
     convos = crud.get_user_conversations(db, user_id)
     db.close()
     return GetConversations(
@@ -57,9 +79,14 @@ def get_user_conversations(user_id: str):
 # ---------- Query ----------
 
 @app.post("/conversations/{conversation_id}/query", response_model=QueryResponse)
-def query_conversation(conversation_id: str, payload: QueryRequest):
+def query_conversation(user_id:str, conversation_id: str, payload: QueryRequest):
 
     db = SessionLocal()
+
+    user = crud.get_user(db, user_id)
+    if not user:
+        db.close()
+        raise HTTPException(status_code=404, detail="User not found")
 
     try:
         crud.add_message(db, conversation_id, "user", payload.query)
@@ -98,8 +125,13 @@ def query_conversation(conversation_id: str, payload: QueryRequest):
     "/conversations/{conversation_id}/messages",
     response_model= List[MessageResponse]
 )
-def get_messages(conversation_id: str):
+def get_messages(conversation_id: str, user_id: str):
     db= SessionLocal()
+
+    user = crud.get_user(db, user_id)
+    if not user:
+        db.close()
+        raise HTTPException(status_code=404, detail="User not found")
 
     messages = crud.get_conversation_messages(db, conversation_id)
     db.close()
@@ -113,9 +145,16 @@ def get_messages(conversation_id: str):
     ]
     
 @app.post("/conversations/{conversation_id}/stream")
-def stream_query(conversation_id: str, payload: QueryRequest):
+def stream_query(conversation_id: str, user_id:str, payload: QueryRequest):
 
     db = SessionLocal()
+
+    user = crud.get_user(db, user_id)
+    if not user:
+        db.close()
+        raise HTTPException(status_code=404, detail="User not found")
+
+
     convo = crud.get_conversation(db, conversation_id)
     if not convo: 
         db.close()
