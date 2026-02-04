@@ -1,45 +1,86 @@
 import hashlib
 from pathlib import Path
 from typing import List, Dict, Any
+
 from pypdf import PdfReader
+
+from core.logger import get_logger
+from core.exceptions import CustomException
+
+
+logger = get_logger("ingestion.loader")
+
 
 def load_pdf(file_path: str) -> List[Dict[str, Any]]:
     """
     Loads and extracts text from a PDF file.
 
     Guarantees:
-    - doc_id: A stable SHA-256 hash of the file content.
-    - page_number: 1-indexed integer.
-    - content: Whitespace-normalized string (no double spaces/newlines).
-    - schema: Returns List[Dict] where each dict contains 'content' and 'metadata'.
+    - doc_id: Stable SHA-256 hash of file content
+    - page_number: 1-indexed
+    - content: Whitespace-normalized text
+    - schema: List[{content, metadata}]
     """
-    path = Path(file_path)
-    if not path.exists():
-        raise FileNotFoundError(f"No PDF found at {file_path}")
+    try:
+        path = Path(file_path)
 
-    # Generate stable doc_id
-    sha256_hash = hashlib.sha256()
-    with open(path, "rb") as f:
-        for byte_block in iter(lambda: f.read(4096), b""):
-            sha256_hash.update(byte_block)
-    doc_id = sha256_hash.hexdigest()
+        if not path.exists():
+            raise FileNotFoundError(f"No PDF found at {file_path}")
 
-    reader = PdfReader(path)
-    documents = []
-    print(f"Total pages detected by PdfReader: {len(reader.pages)}")
-    for i, page in enumerate(reader.pages):
-        raw_text = page.extract_text() or ""
-        #print(f"Page {i+1}: {raw_text[:100]}...")  # Print first 100 chars
-        # Normalize: Collapse all whitespace into single spaces
-        normalized = " ".join(raw_text.split()).strip()
+        logger.info(
+            "event=PDF_LOAD_START | file=%s",
+            path.name
+        )
 
-        if normalized:
-            documents.append({
-                "content": normalized,
-                "metadata": {
-                    "doc_id": doc_id,
-                    "page_number": i + 1,
-                    "source_file": path.name
-                }
-            })
-    return documents
+        # Generate stable doc_id
+        sha256_hash = hashlib.sha256()
+        with open(path, "rb") as f:
+            for byte_block in iter(lambda: f.read(4096), b""):
+                sha256_hash.update(byte_block)
+        doc_id = sha256_hash.hexdigest()
+
+        reader = PdfReader(path)
+        total_pages = len(reader.pages)
+
+        logger.info(
+            "event=PDF_PAGES_DETECTED | file=%s | pages=%d",
+            path.name,
+            total_pages
+        )
+
+        documents: List[Dict[str, Any]] = []
+
+        for i, page in enumerate(reader.pages):
+            raw_text = page.extract_text() or ""
+            normalized = " ".join(raw_text.split()).strip()
+
+            if normalized:
+                documents.append(
+                    {
+                        "content": normalized,
+                        "metadata": {
+                            "doc_id": doc_id,
+                            "page_number": i + 1,
+                            "source_file": path.name,
+                        },
+                    }
+                )
+
+        logger.info(
+            "event=PDF_LOAD_COMPLETE | file=%s | pages_with_text=%d",
+            path.name,
+            len(documents),
+        )
+
+        return documents
+
+    except Exception as e:
+        logger.exception(
+            "event=PDF_LOAD_FAILED | file=%s",
+            file_path
+        )
+        raise CustomException(
+            "Failed to load and parse PDF",
+            error=e,
+            context={"file_path": file_path},
+        ) from e
