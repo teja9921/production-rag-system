@@ -1,6 +1,9 @@
 from typing import List, Optional, Any, Dict, Literal
 from pydantic import BaseModel, Field
 from datetime import datetime
+
+class CreateUserRequest(BaseModel):
+    user_id: Optional[str] = None
 class QueryRequest(BaseModel):
     query: str = Field(..., min_length=3, max_length=1000)
 
@@ -27,4 +30,5 @@ class MessageResponse(BaseModel):
     role: str
     content: str
 
-
+class UpdateTitleRequest(BaseModel):
+    title: str = Field(..., min_length=5, max_length=200)

@@ -71,8 +71,7 @@ if "conversation_id" not in st.session_state:
     else:
         try:
             r = requests.post(
-                f"{API_URL}/conversations",
-                params={"user_id": st.session_state.user_id},
+                f"{API_URL}/users/{st.session_state.user_id}/conversations",
                 timeout=5
             )
             r.raise_for_status()
@@ -109,8 +108,7 @@ with st.sidebar:
     if st.button("➕ New Chat", use_container_width=True):
         try:
             r = requests.post(
-                f"{API_URL}/conversations",
-                params={"user_id": st.session_state.user_id},
+                f"{API_URL}/users/{st.session_state.user_id}/conversations",
                 timeout=5
             )
             r.raise_for_status()
@@ -304,7 +302,7 @@ if query:
                 
                 for chunk in r.iter_content(chunk_size=None):
                     if chunk:
-                        token = chunk.decode("utf-8")
+                        token = chunk.decode("utf-8", errors="ignore")
                         full_answer += token
                         response_placeholder.markdown(full_answer)
                 
@@ -314,7 +312,7 @@ if query:
                     response_placeholder.markdown(full_answer)
                 
         except requests.exceptions.RequestException as e:
-            full_answer = f"Error: Could not get response from server. {e}"
+            full_answer = f"⚠️ Server error. Please try again."
             response_placeholder.error(full_answer)
 
     st.session_state.messages.append(

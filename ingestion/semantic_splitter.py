@@ -1,13 +1,21 @@
 import re
 from typing import List, Dict, Any
 
+from core.logger import get_logger
+from core.exceptions import CustomException
+
+
+logger = get_logger("ingestion.semantic_chunker")
+
+
 class SemanticChunker:
     """
-    Semantic-aware documetn chunker
+    Semantic-aware document chunker.
+
     Strategy:
-    - Split text into logical paragraph blocks
-    - Merge adjacent blocks until size threshold
-    - Preserve semantic coherence
+    - Split text into paragraph blocks
+    - Merge adjacent blocks up to max_chars
+    - Enforce minimum semantic size
     - Avoid sentence and paragraph fragmentation
     """
 
@@ -15,58 +23,89 @@ class SemanticChunker:
         self.max_chars = max_chars
         self.min_chars = min_chars
 
-    def _split_pages(self, pages: List[Dict[str, Any]])-> List[Dict[str, Any]]:
-        chunks = []
-        chunk_index =0
+    def split_pages(self, pages: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        try:
+            logger.info(
+                "event=SEMANTIC_CHUNKING_START | pages=%d | max_chars=%d | min_chars=%d",
+                len(pages),
+                self.max_chars,
+                self.min_chars,
+            )
 
-        for page in pages:
-            text = page["content"]
-            paragraphs = self._split_into_paragraphs(text)
+            chunks: List[Dict[str, Any]] = []
+            chunk_index = 0
 
-            buffer = ""
+            for page in pages:
+                text = page["content"]
+                metadata = page["metadata"]
 
-            for para in paragraphs:
-                if len(buffer) + len(para) <= self.max_chars:
-                    buffer += ("\n\n" + para) if buffer else para
+                paragraphs = self._split_into_paragraphs(text)
+                buffer = ""
 
-                else:
-                    if len(buffer) >= self.min_chars:
-                        chunks.append(self._make_chunks(buffer, page['metadata'], chunks_index))
-                        chunk_index += 1
-                        buffer = para
+                for para in paragraphs:
+                    if len(buffer) + len(para) <= self.max_chars:
+                        buffer = f"{buffer}\n\n{para}" if buffer else para
                     else:
-                        buffer+= "\n\n" + para
+                        if len(buffer) >= self.min_chars:
+                            chunks.append(
+                                self._make_chunk(buffer, metadata, chunk_index)
+                            )
+                            chunk_index += 1
+                            buffer = para
+                        else:
+                            buffer = f"{buffer}\n\n{para}"
 
-            if buffer:
-                chunks.append(self._make_chunks(buffer, page['metadata'], chunk_index))
-                chunk_index += 1
-        
-        return chunks
-                        
-                    
+                if buffer:
+                    chunks.append(
+                        self._make_chunk(buffer, metadata, chunk_index)
+                    )
+                    chunk_index += 1
 
-    def _split_into_paragraphs(self, text:str)->List[str]:
+            logger.info(
+                "event=SEMANTIC_CHUNKING_COMPLETE | total_chunks=%d",
+                len(chunks),
+            )
+
+            return chunks
+
+        except Exception as e:
+            logger.exception("event=SEMANTIC_CHUNKING_FAILED")
+            raise CustomException(
+                "Semantic chunking failed",
+                error=e,
+                context={
+                    "max_chars": self.max_chars,
+                    "min_chars": self.min_chars,
+                },
+            ) from e
+
+    def _split_into_paragraphs(self, text: str) -> List[str]:
         """
-        Paragraph level segmentation.
+        Paragraph-level segmentation.
 
         Works across:
-        -encyclopedias
-        -research papers
-        -clinical notes
-        -books
+        - encyclopedias
+        - research papers
+        - clinical notes
+        - books
         """
-        paras: List[str] = re.split(r"\n{2,}", text)
+        paras = re.split("\\n{2,}", text)
         return [p.strip() for p in paras if len(p.strip()) > 50]
-    
-    def _make_chunks(self, text: str, meta: Dict[str,Any], idx: int):
 
-        doc_id = meta['doc_id']
-        page_number = meta['page_number']
+    def _make_chunk(
+        self,
+        text: str,
+        meta: Dict[str, Any],
+        idx: int,
+    ) -> Dict[str, Any]:
+        doc_id = meta["doc_id"]
+        page_number = meta["page_number"]
+
         return {
             "chunk_id": f"{doc_id}_p{page_number}_s{idx}",
             "content": text.strip(),
             "metadata": {
                 **meta,
-                "semantic_index": idx
-            }
-        } # type: ignore
+                "semantic_index": idx,
+            },
+        }

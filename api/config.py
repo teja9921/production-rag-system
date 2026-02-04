@@ -1,5 +1,3 @@
-# api/config.py
-
 from pydantic_settings import BaseSettings
 from pydantic import Field
 
@@ -24,9 +22,13 @@ class Settings(BaseSettings):
     MAX_PROMPT_TOKENS: int = 3000
     LLM_TIMEOUT_SECONDS: int = 15
 
-    class Config:
-        env_file = None  # dotenv handled outside
-        case_sensitive = True
+    # ===== Device =======
+    EMBEDDING_DEVICE: str = "cpu"  # allowed: "cpu", "cuda"
 
+    # ===== Database URL ======
+    DATABASE_URL: str = "sqlite:///./rag_app.db"
+    class Config:
+        env_file = ".env"
+        case_sensitive = True
 
 settings = Settings()
