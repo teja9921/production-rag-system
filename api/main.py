@@ -16,10 +16,12 @@ from api.schemas import (
     UpdateTitleRequest
 )
 from api.agent_deps import REASONING_GRAPH
+from api.config import settings
 from fastapi import Depends
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 from orchestration.stream_llm import StreamingLLM
+from orchestration.lc_llm import LLMRunnable
 from utils.title_generator import generate_simple_title, generate_llm_title
 from core.logger import get_logger
 
@@ -27,7 +29,8 @@ logger = get_logger("api.main")
 
 app = FastAPI(title="Medical RAG API", version="0.3")
 stream_llm = StreamingLLM()
-
+llm = LLMRunnable()
+MAX_HISTORY_MESSAGES = 6
 # ---------- User ----------
 
 @app.post("/users", response_model= UserResponse)
@@ -98,9 +101,16 @@ def query_conversation(
 
     try:
         crud.add_message(db, conversation_id, "user", payload.query)
+        messages = crud.get_conversation_messages(db, conversation_id)
+        recent = messages[-MAX_HISTORY_MESSAGES:]
+
+        history_text = "\n".join(
+            f"{m.role.upper()}: {m.content}"
+            for m in recent
+        )
         result = REASONING_GRAPH.invoke({
             "query": payload.query, 
-             "conversation_id": conversation_id
+            "history": history_text
             })
         
         if result["status"] == "NO_ANSWER":
@@ -115,7 +125,8 @@ def query_conversation(
             for c in result.get("retrieved_chunks", [])      
         ]
         
-        answer = result["answer"]
+        answer = llm.invoke(payload.query, result["retrieved_chunks"])
+        
         crud.add_message(db, conversation_id, "assistant", answer)
 
         if convo.title is None:
@@ -190,11 +201,17 @@ def stream_query(
     
     needs_title = convo.title is None
     crud.add_message(db, conversation_id, "user", payload.query)
+    messages = crud.get_conversation_messages(db, conversation_id)
+    recent = messages[-settings.MAX_HISTORY_MESSAGES:]
 
+    history_text = "\n".join(
+        f"{m.role.upper()}: {m.content}"
+        for m in recent
+    )
     try:
         result = REASONING_GRAPH.invoke({
             "query": payload.query,
-            "conversation_id": conversation_id,
+            "history" : history_text
         })
     except Exception: 
         logger.exception("retrieval_graph_failed")

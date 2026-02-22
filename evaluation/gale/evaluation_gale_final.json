@@ -1,0 +1,1112 @@
+[
+  {
+    "id": "gale_d3ad81c884",
+    "question": "What is the purpose of electroconvulsive therapy?",
+    "answer": "to provide relief from the signs and symptoms of mental illnesses",
+    "answer_span": "to provide relief from the signs and symptoms of mental illnesses",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 536,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p536_s534",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_7edd5fedfd",
+    "question": "What are the risks associated with laparoscopic cholecystectomy? ???",
+    "answer": "accidental puncture of the bowel or bladder and uncontrolled bleeding",
+    "answer_span": "accidental puncture of the bowel or bladder and uncontrolled bleeding",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 167,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p167_s165",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_7361adf4ff",
+    "question": "What is a prophylactic treatment for headaches?",
+    "answer": "drug therapy",
+    "answer_span": "drug therapy",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 214,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p214_s212",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_f94dc9d6a2",
+    "question": "What tests can be used to determine the cause of cholestasis?",
+    "answer": "Blood tests and liver function tests",
+    "answer_span": "Blood tests and liver function tests",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 174,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p174_s172",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_30bce6aa36",
+    "question": "What causes dehydration in children?",
+    "answer": "losing large amounts of fluid and not drinking enough water to replace the loss",
+    "answer_span": "losing large amounts of fluid and not drinking enough water to replace the loss",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 405,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p405_s403",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_5efe89d646",
+    "question": "How long does it take to isolate a person from diphtheria?",
+    "answer": "one to seven days",
+    "answer_span": "one to seven days",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 467,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p467_s465",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_f4fd3aaaa7",
+    "question": "What is the best treatment for frostbite? ??",
+    "answer": "rapid rewarming",
+    "answer_span": "rapid rewarming",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 758,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p758_s756",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_4a7918baf2",
+    "question": "what is folic acid? ??",
+    "answer": "a water-soluable vitamin belonging to the B-complex group of vitamins",
+    "answer_span": "a water-soluable vitamin belonging to the B-complex group of vitamins",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 733,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p733_s731",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_5820a947ae",
+    "question": "What is the most common reason for chest x rays? ?",
+    "answer": "Pulmonary disorders",
+    "answer_span": "Pulmonary disorders",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 136,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p136_s134",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_567e31c56c",
+    "question": "What is the best way to treat adenomatous polyps? ?",
+    "answer": "Medical therapy",
+    "answer_span": "Medical therapy",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 673,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p673_s671",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_462770f09e",
+    "question": "what can be seen on chest x rays?? ?",
+    "answer": "chest fluid",
+    "answer_span": "chest fluid",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 137,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p137_s135",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_6100a5274c",
+    "question": "What are the most common congenital bladder anomalies? ?",
+    "answer": "exstrophy and congenital diverticula",
+    "answer_span": "exstrophy and congenital diverticula",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 277,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p277_s275",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_3f0ee5602f",
+    "question": "What does the term spermicide mean? ?",
+    "answer": "An agent that is destructive to sperm",
+    "answer_span": "An agent that is destructive to sperm",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 271,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p271_s269",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_991cae59dd",
+    "question": "What does the term kernicterus mean? ?",
+    "answer": "bilirubin is being deposited in the brain",
+    "answer_span": "bilirubin is being deposited in the brain",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 616,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p616_s614",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_9db06a8409",
+    "question": "What is a gastric lavage procedure???",
+    "answer": "washing out the stomach",
+    "answer_span": "washing out the stomach",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 494,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p494_s492",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_eae905953d",
+    "question": "how long does enterobiasis take to diagnose? ?",
+    "answer": "one to two months",
+    "answer_span": "one to two months",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 595,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p595_s593",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_5eeae44188",
+    "question": "What is the most important use of activated charcoal?",
+    "answer": "treat- ment of poisoning",
+    "answer_span": "treat- ment of poisoning",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 120,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p120_s118",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_df3f7d3885",
+    "question": "what is the best way to treat a ruptured aneurysm?",
+    "answer": "clip ligation",
+    "answer_span": "clip ligation",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 89,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p89_s87",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_1ec7320c05",
+    "question": "What is the best way to diagnose lymphatic filaria?",
+    "answer": "by detecting the parasite itself",
+    "answer_span": "by detecting the parasite itself",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 554,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p554_s552",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_959dafdc9f",
+    "question": "What drugs increase the incidence of clefts?",
+    "answer": "phenytoin, sodium valproate, and methotrexate",
+    "answer_span": "phenytoin, sodium valproate, and methotrexate",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 208,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p208_s206",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_35ac43ec37",
+    "question": "What causes infant botulism?? ?",
+    "answer": "ingests the spores of C. botulinum",
+    "answer_span": "ingests the spores of C. botulinum",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 741,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p741_s739",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_9676d51f33",
+    "question": "How long does it take for a patient to recover from a bypass graft? ?",
+    "answer": "three to four months",
+    "answer_span": "three to four months",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 317,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p317_s315",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_199c106f51",
+    "question": "how many people in the u.s. have depressive disorders?",
+    "answer": "17 million",
+    "answer_span": "17 million",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 421,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p421_s419",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_d553d09e22",
+    "question": "what is a strabismus?? ?????? ????",
+    "answer": "A disorder where the two eyes do not point in the same direction",
+    "answer_span": "A disorder where the two eyes do not point in the same direction",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 657,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p657_s655",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_6f7afa6ee9",
+    "question": "What causes conjunctivitis? ?????? ?",
+    "answer": "viral infection",
+    "answer_span": "viral infection",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 292,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p292_s290",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_863929f267",
+    "question": "What is the best treatment for CF? ?",
+    "answer": "Gene therapy",
+    "answer_span": "Gene therapy",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 378,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p378_s376",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_b45345c8db",
+    "question": "What causes V on Willebrand’s disease???",
+    "answer": "a defect in the V on Willebrand clotting factor",
+    "answer_span": "a defect in the V on Willebrand clotting factor",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 217,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p217_s215",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_55cdf37d55",
+    "question": "What are the risks of hearing implants?",
+    "answer": "controversial, very expen- sive, and have uncertain results",
+    "answer_span": "controversial, very expen- sive, and have uncertain results",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 227,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p227_s225",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_17cf45e606",
+    "question": "What should be done if a person faints?",
+    "answer": "lie flat for 10–15 minutes",
+    "answer_span": "lie flat for 10–15 minutes",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 667,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p667_s665",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_8668c6048f",
+    "question": "What type of test is used to determine the type of seizure a patient has?",
+    "answer": "ictal EEG",
+    "answer_span": "ictal EEG",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 539,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p539_s537",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_32ce65d784",
+    "question": "What is the normal concentration of bicarbonate in the body? ?",
+    "answer": "27 mM",
+    "answer_span": "27 mM",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 545,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p545_s543",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_c613cc7d52",
+    "question": "what is the cause of diabetic neuropathy?? ??? or is it a genetic condition?",
+    "answer": "diabetes mellitus",
+    "answer_span": "diabetes mellitus",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 445,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p445_s443",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_3249e722d7",
+    "question": "What types of tests can be used to determine if a child has an X-linked recessive form of EDS? ?",
+    "answer": "skin biopsies",
+    "answer_span": "skin biopsies",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 528,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p528_s526",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_78575a0806",
+    "question": "what does tetracycline do for cholera? ?",
+    "answer": "shorten the duration of the illness and reduce fluid loss",
+    "answer_span": "shorten the duration of the illness and reduce fluid loss",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 171,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p171_s169",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_889ae22ee9",
+    "question": "What is the purpose of cataract surgery?",
+    "answer": "to restore clear vision",
+    "answer_span": "to restore clear vision",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 60,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p60_s58",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_51d12f4f01",
+    "question": "What is the purpose of ultrasonic imaging?",
+    "answer": "to guide the precise placement of instruments during surgery",
+    "answer_span": "to guide the precise placement of instruments during surgery",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 645,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p645_s643",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_c84bcc3c0a",
+    "question": "What is the most accurate method for diagnosing coronary artery disease? ?",
+    "answer": "Coronary angiography",
+    "answer_span": "Coronary angiography",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 320,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p320_s318",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_456350600f",
+    "question": "When does a colostomy need to be scheduled?",
+    "answer": "When the amount of intestine removed is great",
+    "answer_span": "When the amount of intestine removed is great",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 481,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p481_s479",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_6611046473",
+    "question": "what is the definition of \"mad cow disease\"?? ??? is it a disease that causes demen- tia-like behavioral changes??",
+    "answer": "V ariant CJD",
+    "answer_span": "V ariant CJD",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 340,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p340_s338",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_286279dfdf",
+    "question": "What causes congestive cardiomyopathy? ????????? ?",
+    "answer": "Coronary artery disease",
+    "answer_span": "Coronary artery disease",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 286,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p286_s284",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_6dd9ba4772",
+    "question": "what is the cause of diabetic neuropathy?? ?",
+    "answer": "diabetes mellitus",
+    "answer_span": "diabetes mellitus",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 445,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p445_s443",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_e53ab917c2",
+    "question": "what is the cause of carbohydrate intolerance?",
+    "answer": "enzyme deficiency",
+    "answer_span": "enzyme deficiency",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 40,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p40_s38",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_43bdf1f296",
+    "question": "What is a patch test for dermatitis? ?",
+    "answer": "A skin test that is done to identify aller- gens",
+    "answer_span": "A skin test that is done to identify aller- gens",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 426,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p426_s424",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_02a371194b",
+    "question": "What is the best way to prevent emphysema?",
+    "answer": "avoid smoking",
+    "answer_span": "avoid smoking",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 562,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p562_s560",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_1c4f04a919",
+    "question": "what is a cold sore caused by? ?",
+    "answer": "herpes simplex virus infection",
+    "answer_span": "herpes simplex virus infection",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 233,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p233_s231",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_87f60ffd3e",
+    "question": "What is the best treatment for a pulmonary embolism?",
+    "answer": "Thrombolytic therapy",
+    "answer_span": "Thrombolytic therapy",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 558,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p558_s556",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_42b14742ee",
+    "question": "What herbs are used to relieve a sore throat?? ?",
+    "answer": "alum, sumac, sage, and bayberry",
+    "answer_span": "alum, sumac, sage, and bayberry",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 261,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p261_s259",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_ed5ce1eeb7",
+    "question": "What is the most common type of breech pre- sentation? ?",
+    "answer": "Frank breech",
+    "answer_span": "Frank breech",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 147,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p147_s145",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_97538bc87f",
+    "question": "What is the most common type of ocular cancer in children?",
+    "answer": "intraocular melanoma",
+    "answer_span": "intraocular melanoma",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 647,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p647_s645",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_5e4b678703",
+    "question": "What is the most important diagnostic test for CF?",
+    "answer": "measuring the salti- ness of a person’s sweat",
+    "answer_span": "measuring the salti- ness of a person’s sweat",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 376,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p376_s374",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_d8dd1ea066",
+    "question": "What are the most important tests for diagnosis of DUB? ?",
+    "answer": "Endometrial biopsy",
+    "answer_span": "Endometrial biopsy",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 501,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p501_s499",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_584fcaa87b",
+    "question": "What can be used to treat cocaine addiction? ?",
+    "answer": "behavioral interventions",
+    "answer_span": "behavioral interventions",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 222,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p222_s220",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_c3787d4f55",
+    "question": "what is the definition of \"mad cow disease\"?",
+    "answer": "V ariant CJD",
+    "answer_span": "V ariant CJD",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 340,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p340_s338",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_65b5776550",
+    "question": "What is the definition of cell therapy?? ????????? ?",
+    "answer": "a type of organ transplant",
+    "answer_span": "a type of organ transplant",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 75,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p75_s73",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_8d8e939a85",
+    "question": "What causes a child to fail to thrive? ?",
+    "answer": "physical defects",
+    "answer_span": "physical defects",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 665,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p665_s663",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_f3fe88a62a",
+    "question": "What are the risks and limitations of cochlear implants?",
+    "answer": "controversial, very expen- sive, and have uncertain results",
+    "answer_span": "controversial, very expen- sive, and have uncertain results",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 227,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p227_s225",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_12fcbd747f",
+    "question": "what is a manometry test for esophagus?",
+    "answer": "Measurement of pressure",
+    "answer_span": "Measurement of pressure",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 459,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p459_s457",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_402124fd9b",
+    "question": "What are the risks of circumcision? ?",
+    "answer": "Complications following newborn circumcision appear in one out of every 500 procedures",
+    "answer_span": "Complications following newborn circumcision appear in one out of every 500 procedures",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 203,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p203_s201",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_4a5504a964",
+    "question": "what causes elephantiasis? ?????????? ?",
+    "answer": "Three kinds of round worms",
+    "answer_span": "Three kinds of round worms",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 553,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p553_s551",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_c1bb3947f4",
+    "question": "What can be done to help treat cocaine addiction?",
+    "answer": "behavioral interventions",
+    "answer_span": "behavioral interventions",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 222,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p222_s220",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_3b02096c0f",
+    "question": "What are the main causes of contractures? ?",
+    "answer": "muscle imbalance, pain, prolonged bed rest, and immobilization",
+    "answer_span": "muscle imbalance, pain, prolonged bed rest, and immobilization",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 302,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p302_s300",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_b16b1ef544",
+    "question": "What are the main causes of a contracture??",
+    "answer": "muscle imbalance, pain, prolonged bed rest, and immobilization",
+    "answer_span": "muscle imbalance, pain, prolonged bed rest, and immobilization",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 302,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p302_s300",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_778543280d",
+    "question": "How do you know if you have FMF? ?",
+    "answer": "Direct analysis of the MEFV gene",
+    "answer_span": "Direct analysis of the MEFV gene",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 670,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p670_s668",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_289feb80fe",
+    "question": "what type of test can be used to detect ketones in the urine? ?",
+    "answer": "dipstick tests",
+    "answer_span": "dipstick tests",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 438,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p438_s436",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_6905f33878",
+    "question": "What is the best way to treat empyema?",
+    "answer": "intra- venous antibiotics and surgical removal of the gallbladder",
+    "answer_span": "intra- venous antibiotics and surgical removal of the gallbladder",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 564,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p564_s562",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_81961b943d",
+    "question": "what is a fetus monitoring method? ?????? ?",
+    "answer": "Telemetry monitoring",
+    "answer_span": "Telemetry monitoring",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 149,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p149_s147",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_5515afc94d",
+    "question": "What are the risks of using analgesics? ?",
+    "answer": "Patients taking opioids for pain relief can develop tol- erance and dependence",
+    "answer_span": "Patients taking opioids for pain relief can develop tol- erance and dependence",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 31,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p31_s29",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_6b9b438693",
+    "question": "What are the symptoms of diabetes mellitus?",
+    "answer": "frequent urination, lethargy, excessive thirst, and hunger",
+    "answer_span": "frequent urination, lethargy, excessive thirst, and hunger",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 436,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p436_s434",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_be38abef56",
+    "question": "What is the best way to diagnose fluke infections?",
+    "answer": "Blood tests",
+    "answer_span": "Blood tests",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 730,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p730_s728",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_c17bcf7bb5",
+    "question": "What causes carpal tunnel syndrome? ?",
+    "answer": "activities which cause an individual to repeatedly bend the wrist inward toward the forearm",
+    "answer_span": "activities which cause an individual to repeatedly bend the wrist inward toward the forearm",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 57,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p57_s55",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_6102a6e040",
+    "question": "What is the purpose of electronic fetal monitoring? ?",
+    "answer": "to ensure normal deliv- ery of a healthy baby",
+    "answer_span": "to ensure normal deliv- ery of a healthy baby",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 548,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p548_s546",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_a7f40b1e57",
+    "question": "what causes cushing's syndrome? ????????? ?",
+    "answer": "excessive secretion of ACTH by a pituitary tumor",
+    "answer_span": "excessive secretion of ACTH by a pituitary tumor",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 360,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p360_s358",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_f2b204d4a2",
+    "question": "what are the symptoms of enterobiasis? ?",
+    "answer": "itching around the anus",
+    "answer_span": "itching around the anus",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 595,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p595_s593",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_db3ea40b2e",
+    "question": "How long does a biopsy take? ?",
+    "answer": "15 minutes",
+    "answer_span": "15 minutes",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 254,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p254_s252",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_34516f096d",
+    "question": "What is the most common type of emboli???",
+    "answer": "Pulmonary emboli",
+    "answer_span": "Pulmonary emboli",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 556,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p556_s554",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_1f689d999f",
+    "question": "how many people are addicted to cocaine?",
+    "answer": "three to four million",
+    "answer_span": "three to four million",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 221,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p221_s219",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_70985ef10d",
+    "question": "What are the symptoms of fatty liver in pregnancy??",
+    "answer": "nausea, vomiting, loss of appetite, and abdominal pain",
+    "answer_span": "nausea, vomiting, loss of appetite, and abdominal pain",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 685,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p685_s683",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_db49b5b748",
+    "question": "What are the main causes of death in the United States?",
+    "answer": "heart disease and cancer",
+    "answer_span": "heart disease and cancer",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 393,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p393_s391",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_162de6554b",
+    "question": "What is the treatment for blepharitis? ?",
+    "answer": "hot compresses",
+    "answer_span": "hot compresses",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 659,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p659_s657",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_a11f7390de",
+    "question": "what is a chest x ray?? ?",
+    "answer": "a procedure used to evaluate organs and structures within the chest for symptoms of disease",
+    "answer_span": "a procedure used to evaluate organs and structures within the chest for symptoms of disease",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 136,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p136_s134",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_33b0cebdaf",
+    "question": "What are the most common symptoms of endometrial cancer?",
+    "answer": "unusual vaginal spotting, bleeding, or discharge",
+    "answer_span": "unusual vaginal spotting, bleeding, or discharge",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 576,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p576_s574",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_d38c90f05f",
+    "question": "what is the purpose of echocardiography? ?",
+    "answer": "to diagnose certain cardio- vascular diseases",
+    "answer_span": "to diagnose certain cardio- vascular diseases",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 516,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p516_s514",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_80c9d3f0bd",
+    "question": "how many cases of chancroid in the u.s.?",
+    "answer": "fewer than 1,500",
+    "answer_span": "fewer than 1,500",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 118,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p118_s116",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_83b6a9fa7c",
+    "question": "What is the purpose of a CT scan? ?",
+    "answer": "to image a wide variety of body structures and internal organs",
+    "answer_span": "to image a wide variety of body structures and internal organs",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 264,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p264_s262",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_031e6262aa",
+    "question": "What is the definition of a cryoglobulin test? ?",
+    "answer": "an abnormal blood protein associat- ed with several diseases",
+    "answer_span": "an abnormal blood protein associat- ed with several diseases",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 350,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p350_s348",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_10acd2c655",
+    "question": "What type of test is used to determine the type of seizure a person is suffering from??",
+    "answer": "ictal EEG",
+    "answer_span": "ictal EEG",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 539,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p539_s537",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_e24dea4ffb",
+    "question": "What can be done to help a person recover from a burn? ? What is the most common treatment for burns?",
+    "answer": "physical therapy",
+    "answer_span": "physical therapy",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 531,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p531_s529",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_b057003fce",
+    "question": "how long does Epstein-Barr virus infection last? what type of antigen can be detected? ?",
+    "answer": "four to six months",
+    "answer_span": "four to six months",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 611,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p611_s609",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_450921297a",
+    "question": "what is ventricular tachycardia?? ???",
+    "answer": "A rapid heart beat",
+    "answer_span": "A rapid heart beat",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 55,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p55_s53",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_eb9d4cb912",
+    "question": "What is the most common type of cataract extraction?? ?",
+    "answer": "Y AG capsulotomy",
+    "answer_span": "Y AG capsulotomy",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 64,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p64_s62",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_5fcb2ae30d",
+    "question": "What is a gastric lavage procedure? What is it called? ??",
+    "answer": "washing out the stomach",
+    "answer_span": "washing out the stomach",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 494,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p494_s492",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_0c2d8b16e8",
+    "question": "What type of test is used to measure the electrical activity of a muscle? ?",
+    "answer": "nerve conduction veloci- ty test",
+    "answer_span": "nerve conduction veloci- ty test",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 547,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p547_s545",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_e3542696b5",
+    "question": "What are the symptoms of psychogenic polydipsia? ?",
+    "answer": "extreme thirst and the pro- duction of tremendous quantities of urine",
+    "answer_span": "extreme thirst and the pro- duction of tremendous quantities of urine",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 435,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p435_s433",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_585f4b47a7",
+    "question": "what is the best way to prevent cirrhosis? ?",
+    "answer": "Eliminating alcohol abuse",
+    "answer_span": "Eliminating alcohol abuse",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 207,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p207_s205",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_788cd5e83a",
+    "question": "What is the purpose of an enterostomy? ?",
+    "answer": "collecting the fecal material",
+    "answer_span": "collecting the fecal material",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 596,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p596_s594",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_a9bdc0eebd",
+    "question": "What is the definition of a cancer? ?",
+    "answer": "a disease of the genes",
+    "answer_span": "a disease of the genes",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 21,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p21_s19",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_49df45cfe2",
+    "question": "How do you treat choriocarcinomas?",
+    "answer": "surgical removal of the tumor and chemotherapy",
+    "answer_span": "surgical removal of the tumor and chemotherapy",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 187,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p187_s185",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_c4c5f7f8e4",
+    "question": "What are the advantages of minimally invasive coronary artery bypass graft surgery?",
+    "answer": "shorter hospital stay, a shorter recovery period, and lower costs",
+    "answer_span": "shorter hospital stay, a shorter recovery period, and lower costs",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 316,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p316_s314",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_aa70454ee2",
+    "question": "What is the cause of ciguatera? ?",
+    "answer": "eating fish that have a toxin called ciguatoxin",
+    "answer_span": "eating fish that have a toxin called ciguatoxin",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 720,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p720_s718",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_54d672088b",
+    "question": "What is the most common cause of encephalitis? ?",
+    "answer": "herpes simplex",
+    "answer_span": "herpes simplex",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 566,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p566_s564",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_9b02ca154c",
+    "question": "how many people in the u.s. suffer from depressive disorder?",
+    "answer": "17 million",
+    "answer_span": "17 million",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 421,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p421_s419",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_dc1e682669",
+    "question": "how long does Epstein-Barr virus infection last? ?",
+    "answer": "four to six months",
+    "answer_span": "four to six months",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 611,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p611_s609",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_ef3ccc6bd4",
+    "question": "how many cases of chancroid in the u.s. per year? ?",
+    "answer": "fewer than 1,500",
+    "answer_span": "fewer than 1,500",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 118,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p118_s116",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_85aa4555f9",
+    "question": "What is a tympanoplasty procedure? ?",
+    "answer": "ossicular reconstruction",
+    "answer_span": "ossicular reconstruction",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 510,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p510_s508",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_3e96065885",
+    "question": "What is the main purpose of chemotherapy? ?",
+    "answer": "kill cancer cells",
+    "answer_span": "kill cancer cells",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 129,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p129_s127",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_fc298b8aec",
+    "question": "What causes coronary artery disease?? ???''??",
+    "answer": "athero- sclerosis",
+    "answer_span": "athero- sclerosis",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 318,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p318_s316",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_1f80a148c2",
+    "question": "What is the purpose of cosmetic dentistry? ?",
+    "answer": "to improve the appearance of the teeth",
+    "answer_span": "to improve the appearance of the teeth",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 328,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p328_s326",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_93d4700ded",
+    "question": "what is a cystoscopy? ??? or a cystoscopy of the urinary system??",
+    "answer": "examination with a telescope-like instrument",
+    "answer_span": "examination with a telescope-like instrument",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 278,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p278_s276",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_362191fb65",
+    "question": "What is the purpose of ECT??",
+    "answer": "to provide relief from the signs and symptoms of mental illnesses",
+    "answer_span": "to provide relief from the signs and symptoms of mental illnesses",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 536,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p536_s534",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_bf43cdbf01",
+    "question": "What is the purpose of electrocardiography? ???????? ?",
+    "answer": "a starting point for detecting many cardiac problems",
+    "answer_span": "a starting point for detecting many cardiac problems",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 534,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p534_s532",
+    "difficulty": "easy"
+  },
+  {
+    "id": "gale_4f287966ed",
+    "question": "what is a dissociative disorder?",
+    "answer": "multiple personality disorder",
+    "answer_span": "multiple personality disorder",
+    "doc_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973",
+    "page_number": 473,
+    "chunk_id": "1b2e1ac7a12e3f9a97bbd997972f27cb13786de256de83627a51e69d09208973_p473_s471",
+    "difficulty": "easy"
+  }
+]
