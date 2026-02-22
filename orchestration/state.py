@@ -1,7 +1,6 @@
 from typing import TypedDict, List, Dict, Any, Optional, Literal
 
 class GraphState(TypedDict):
-    conversation_id: str
     query: str
     history: Optional[str]
     rewritten_query: Optional[str]

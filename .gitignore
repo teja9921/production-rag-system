@@ -49,3 +49,19 @@ rag_chatbot_architecture.tsx
 dummy_deps.txt
 logging_comment/
 tests/
+
+Sprint8.md
+hitrate_check.py
+further sprints plan.md
+
+# evaluation outputs
+evaluation/**/outputs/
+evaluation/**/*.csv
+evaluation/**/*.log
+
+# large intermediate generation artifacts
+evaluation/**/generated/
+evaluation/**/raw/
+
+# model caches if any
+evaluation/**/cache/

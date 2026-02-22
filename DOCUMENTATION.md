@@ -572,3 +572,281 @@ Semantic Chunking → Hybrid Retrieval (BM25 + FAISS) → Cross-Encoder Rerankin
 - Significant retrieval precision improvement.
 - Hallucination reduction.
 - More consistent citation grounding.
+
+## 20. Production Hardening & Architecture Finalization (Sprint 7)
+
+### Goal
+
+- Stabilize conversation lifecycle, finalize reasoning architecture, harden API + UI for production behavior, and add observability (logging + latency).
+
+### Task 7.1 — Persistent User & Conversation State
+
+#### What was done
+
+- Implemented cookie-based user identity using encrypted cookies.
+- Ensured user identity persists across UI refreshes.
+- Backend user creation made idempotent.
+- Conversations restored reliably on reload.
+
+#### Why
+
+- Prevented duplicate users/sessions.
+- Enabled ChatGPT-like continuity.
+
+### Task 7.2 — Conversation Management UX
+
+#### What was done
+
+- Sidebar conversation list with:
+- Auto-generated titles
+- Manual rename
+- Regenerate title
+- Delete conversation
+- Graceful handling of untitled / newly created chats.
+- Active conversation highlighting.
+
+#### Why
+
+- Matches real-world chat product UX.
+- Clean separation of UI state vs backend truth.
+
+### Task 7.3 — Reasoning Graph Refactor
+
+#### What was done
+- Replaced multiple graphs with a single reasoning graph:
+- Optional query rewrite
+- Hybrid retrieval (dense + BM25)
+- Reranking
+- Moved memory read/write out of graphs into API endpoints.
+- Streaming and non-streaming endpoints now share the same reasoning core.
+
+#### Why
+- Eliminated double DB writes.
+- Reduced unnecessary LLM calls.
+- Simplified mental model and debugging.
+- Industry-aligned architecture (graphs = reasoning only).
+
+### Task 7.4 — Production Hardening & Observability
+
+#### What was done
+
+- Added structured logging at:
+- Request start
+- Request end
+- Failure points
+- Added latency metrics:
+- Total request latency
+- Streaming TTFB (time to first token)
+- Ensured streaming endpoint:
+- No per-token logging
+- Safe error handling
+- API endpoints cleaned and aligned with REST semantics.
+- UI aligned with updated API contracts.
+
+#### Why
+
+- Enables debugging under load.
+- Makes performance measurable.
+- Prevents silent failures in streaming flows.
+
+### Final Outcome of Sprint 7
+
+- Architecture is production-aligned
+- UI behavior matches real chat products
+- Reasoning layer is clean and reusable
+- API is observable and debuggable
+- No duplicated side effects or hidden coupling
+
+## 21 — RAG Evaluation + Metrics (Sprint 8)
+
+### Objective
+
+Establish a **deterministic, reproducible evaluation framework** to measure retrieval and answer quality across multiple RAG configurations.
+
+Focus areas:
+
+* Retrieval accuracy
+* Ranking effectiveness
+* Latency profiling
+* Answer correctness (external benchmark)
+* Ablation analysis across pipeline variants
+
+---
+
+## T8.1 — GALE Evaluation Dataset (Synthetic Q/A Generation)
+
+Source document:
+
+* *The GALE Encyclopedia of Medicine (Second Edition)*
+
+Pipeline:
+
+1. Semantic chunk extraction
+2. Question generation (T5 QG model)
+3. QA extraction model
+4. Deduplication (regex + semantic similarity)
+5. Manual quality filtering
+
+Generation statistics:
+
+* 740 chunks extracted
+* 2,683 questions generated
+* 1,312 unique questions
+* 419 QA pairs extracted
+* 389 after global dedupe
+* 250 sampled
+* **113 high-quality validated evaluation pairs**
+
+Final schema:
+
+* id
+* question
+* answer (ground truth)
+* answer_span (exact text match)
+* doc_id
+* page_number
+* chunk_id
+* difficulty
+
+This became the **primary deterministic retrieval benchmark**.
+
+---
+
+## T8.2 — Deterministic Retrieval Evaluation Runner
+
+Implemented evaluation runner that:
+
+Input:
+
+* evaluation_gale_final.json
+* active RAG pipeline configuration
+
+Output per query:
+
+* retrieved chunk IDs
+* rank position of correct chunk
+* hit / miss
+* latency
+* difficulty
+
+Metrics computed:
+
+* MRR
+* Recall@1
+* Recall@3
+* Recall@5
+* latency distribution (p50, p95, mean, max)
+* NO_ANSWER rate (when applicable)
+
+All results exported to CSV for aggregation.
+
+---
+
+## T8.3 — Ablation Experiments (Retrieval Config Comparison)
+
+Tested six configurations:
+
+1. hybrid_rerank_v1
+2. bm25_v1
+3. bm25_rerank_v1
+4. hybrid_v1
+5. dense_v1
+6. dense_rerank_v1
+
+Generated comparative ablation table.
+
+### Key Findings
+
+| Config           | MRR                | Recall@5           | Latency         |
+| ---------------- | ------------------ | ------------------ | --------------- |
+| hybrid_rerank_v1 | highest            | 1.0                | highest         |
+| bm25_v1          | fast               | lower recall       | minimal latency |
+| dense_v1         | weakest retrieval  | moderate latency   |                 |
+| reranking        | major recall boost | large latency cost |                 |
+
+Conclusion:
+
+* Hybrid + rerank gives best retrieval quality.
+* BM25 only gives best speed.
+* Reranker dominates recall improvements.
+* Retrieval architecture choice = accuracy vs latency trade-off.
+
+This validated the production retrieval design.
+
+---
+
+## T8.4 — MedQuAD Answer Correctness Evaluation
+
+Purpose:
+Measure **answer generation quality** against an external medical QA benchmark.
+
+Dataset:
+
+* MedQuAD (sampled subset)
+
+Evaluation method:
+
+* Retrieval + generation pipeline
+* ROUGE-L overlap
+* semantic similarity (embedding cosine)
+* NO_ANSWER rate
+* latency
+
+Observed results:
+
+* semantic similarity ≈ 0.67
+* ROUGE-L low (expected due to paraphrasing)
+* high NO_ANSWER rate (domain mismatch)
+* latency consistent with hybrid + rerank cost
+
+Interpretation:
+System behaves conservatively when evidence is missing.
+Low hallucination risk but limited coverage.
+
+---
+
+## T8.5 — Conversational Stress Test (ruslanmv dataset)
+
+Experiment attempted:
+
+* single-turn doctor response generation
+
+Outcome:
+
+* high hallucination variability
+* unstable model availability
+* excessive runtime cost
+* low evaluation signal relevance
+
+Decision:
+**Test discontinued.**
+Dataset not aligned with retrieval evaluation goals.
+
+---
+
+## Sprint 8 Deliverables
+
+✔ Synthetic high-quality medical evaluation dataset
+✔ Deterministic retrieval evaluator
+✔ Metric aggregation pipeline
+✔ Full ablation comparison across configurations
+✔ External benchmark answer evaluation (MedQuAD)
+✔ Performance–latency tradeoff analysis
+✔ Evidence-grounded failure detection
+
+---
+
+## Architectural Impact
+
+System is now:
+
+* quantitatively measurable
+* reproducibly testable
+* configuration comparable
+* benchmark validated
+
+Evaluation framework is reusable for future pipeline changes.
+
+---
+
+

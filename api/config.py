@@ -7,7 +7,7 @@ class Settings(BaseSettings):
 
     # ===== Models =====
     EMBEDDING_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"
-    LLM_MODEL_ID: str = "meta-llama/Meta-Llama-3-8B-Instruct"
+    LLM_MODEL_ID: str = "MiniMaxAI/MiniMax-M2.5" #"meta-llama/Meta-Llama-3-8B-Instruct" #"mistralai/Mistral-7B-Instruct-v0.2" 
 
     # ===== Chunking =====
     CHUNK_SIZE: int = 500
@@ -27,6 +27,9 @@ class Settings(BaseSettings):
 
     # ===== Database URL ======
     DATABASE_URL: str = "sqlite:///./rag_app.db"
+
+    # ===== CHAT HISTORY ======
+    MAX_HISTORY_MESSAGES: int = 6
     class Config:
         env_file = ".env"
         case_sensitive = True

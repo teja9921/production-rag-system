@@ -2,7 +2,7 @@
 # Vector Store & Embeddings
 faiss-cpu
 sentence-transformers
-
+sentencepiece
 # Document Processing
 pypdf
 
