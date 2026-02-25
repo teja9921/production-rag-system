@@ -24,12 +24,35 @@ class QueryWriter:
 
         # Cheap linguistic signals
         self.pronoun_pattern = re.compile(r"\b(it|they|that|this|those|these|he|she)\b", re.I)
+        self.vague_opening_pattern = re.compile(
+            r"^(help|i need help|can you help|question|doubt|not sure|explain this|"
+            r"tell me more|more details|details please|can you elaborate)",
+            re.I,
+        )
+        self.vague_placeholder_pattern = re.compile(
+            r"\b(something|anything|stuff|issue|problem|thing)\b",
+            re.I,
+        )
 
     def _needs_rewrite(self, query: str, history: str | None) -> bool:
         """
         Heuristic gate to decide whether rewrite is necessary.
         """
+        query = query.strip()
+        if not query:
+            return False
+
+        # First-turn safeguard: vague opening requests should still be rewritten.
+        # This helps retrieval when users start with generic asks and no context.
         if not history:
+            if self.pronoun_pattern.search(query):
+                return True
+
+            if self.vague_opening_pattern.search(query):
+                return True
+
+            if len(query.split()) <= 8 and self.vague_placeholder_pattern.search(query):
+                return True
             return False
 
         if len(query.strip()) < 12:
@@ -43,14 +66,16 @@ class QueryWriter:
 
         return False
 
-    def __call__(self, state: GraphState) -> GraphState:
+    def __call__(self, state: GraphState, rewrite_flag: bool = False) -> GraphState:
         query = state["query"]
         history = state.get("history")
 
         # Default: no rewrite
         state["rewritten_query"] = None
 
-        if not self._needs_rewrite(query, history):
+        if rewrite_flag:
+            pass
+        elif not self._needs_rewrite(query, history):
             return state
 
         try:

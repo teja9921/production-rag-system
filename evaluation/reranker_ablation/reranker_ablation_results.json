@@ -1,0 +1,29 @@
+{
+  "cross_encoder_minilm": {
+    "MRR": 0.8956456456456456,
+    "Recall@5": 1.0,
+    "latency_ms": {
+      "mean": 44.88636167567321,
+      "p95": 62.157215499951235
+    },
+    "reranker": "cross_encoder_minilm"
+  },
+  "bge_reranker_base": {
+    "MRR": 0.9256756756756757,
+    "Recall@5": 1.0,
+    "latency_ms": {
+      "mean": 211.8246511711748,
+      "p95": 296.71818550002627
+    },
+    "reranker": "bge_reranker_base"
+  },
+    "cohere_rerank": {
+    "MRR": 0.9525525525525526,
+    "Recall@5": 1.0,
+    "latency_ms": {
+      "mean": 7095.85916304506,
+      "p95": 7203.014530000019
+    },
+    "reranker": "cohere_rerank"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "paragraph_small": {
+    "lexical_recall@5": 0.8108108108108109,
+    "semantic_recall@5": 0.32432432432432434,
+    "mean_best_similarity": 0.5822631985217601
+  },
+  "paragraph_large": {
+    "lexical_recall@5": 0.8108108108108109,
+    "semantic_recall@5": 0.32432432432432434,
+    "mean_best_similarity": 0.5822631985217601
+  },
+  "semantic_default": {
+    "lexical_recall@5": 0.8108108108108109,
+    "semantic_recall@5": 0.32432432432432434,
+    "mean_best_similarity": 0.5822631985217601
+  },
+  "sentence_boundary": {
+    "lexical_recall@5": 0.7567567567567568,
+    "semantic_recall@5": 0.23423423423423423,
+    "mean_best_similarity": 0.5581312295015868
+  },
+  "sliding_window": {
+    "lexical_recall@5": 0.7927927927927928,
+    "semantic_recall@5": 0.2702702702702703,
+    "mean_best_similarity": 0.5965975522994995
+  }
+}

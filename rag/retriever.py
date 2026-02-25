@@ -29,7 +29,4 @@ class Retriever:
                 chunks.append(self.store.metadata[idx])
                 chunk_scores.append(float(score))
 
-        top_score = chunk_scores[0] if chunk_scores else 0.0
-
-        print(f"[DEBUG] Retrieved {len(chunks)} chunks, top score {top_score:.4f}")
         return "ANSWER", chunks, chunk_scores
