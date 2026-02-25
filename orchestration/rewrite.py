@@ -43,14 +43,16 @@ class QueryWriter:
 
         return False
 
-    def __call__(self, state: GraphState) -> GraphState:
+    def __call__(self, state: GraphState, rewrite_flag: bool = False) -> GraphState:
         query = state["query"]
         history = state.get("history")
 
         # Default: no rewrite
         state["rewritten_query"] = None
 
-        if not self._needs_rewrite(query, history):
+        if rewrite_flag:
+            pass
+        elif not self._needs_rewrite(query, history):
             return state
 
         try:

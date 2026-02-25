@@ -1,0 +1,17 @@
+{
+  "rewrite_off": {
+    "policy": "rewrite_off",
+    "recall@5": 0.7,
+    "mean_latency_ms": 887.182899102619
+  },
+  "rewrite_always": {
+    "policy": "rewrite_always",
+    "recall@5": 0.95,
+    "mean_latency_ms": 1223.1394108122652
+  },
+  "rewrite_conditional": {
+    "policy": "rewrite_conditional",
+    "recall@5": 0.88,
+    "mean_latency_ms": 1018.7616468562435
+  }
+}

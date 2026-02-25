@@ -849,4 +849,441 @@ Evaluation framework is reusable for future pipeline changes.
 
 ---
 
+# 22 — Research Enhancements (Sprint 9)
+
+## Objective
+
+Systematically improve retrieval robustness by experimentally validating architectural choices beyond baseline hybrid + rerank.
+
+### Focus Areas
+
+- Chunking strategy sensitivity  
+- Query rewrite contribution  
+- Reranker model impact  
+- Retrieval–latency trade-offs under structural changes  
+- Controlled ablation under fixed evaluation benchmark (GALE)  
+
+This sprint shifts from **“which retriever works best”** to:
+
+> How structural design choices affect retrieval quality.
+
+---
+
+## T9.1 — Semantic Chunking Ablation
+
+## Tested Chunking Strategies
+
+1. `paragraph_small` (800 / 150)  
+2. `paragraph_large` (1600 / 300)  
+3. `semantic_default`  
+4. `sentence_boundary`  
+5. `sliding_window`  
+
+## Evaluation Method
+
+- Lexical containment recall@5  
+- Semantic recall@5  
+- Mean best similarity  
+
+---
+
+## Results Summary
+
+| Strategy           | Lexical Recall@5 | Semantic Recall@5 | Mean Similarity |
+|-------------------|------------------|-------------------|-----------------|
+| paragraph_small   | 0.81             | 0.32              | 0.582           |
+| paragraph_large   | 0.81             | 0.32              | 0.582           |
+| semantic_default  | 0.81             | 0.32              | 0.582           |
+| sentence_boundary | 0.76             | 0.23              | 0.558           |
+| sliding_window    | 0.79             | 0.27              | 0.596           |
+
+---
+
+## Key Findings
+
+### 1. Paragraph-Based and Semantic Chunking Are Equivalent
+
+`paragraph_small`, `paragraph_large`, and `semantic_default` produce identical retrieval quality.
+
+- Increasing chunk size beyond 800 characters does not improve recall.
+- Semantic splitting offers no measurable gain over simple paragraph merging on GALE.
+
+---
+
+### 2. Sentence Boundary Chunking Degrades Performance
+
+- Excessive fragmentation harms retrieval.
+- Removing surrounding semantic context reduces containment frequency.
+- Both lexical and semantic recall drop.
+
+---
+
+### 3. Sliding Window Improves Similarity but Not Recall
+
+- Overlap increases embedding proximity (mean similarity ↑).
+- However, correct answer containment frequency does not increase.
+- Larger index size with no recall gain.
+
+---
+
+### 4. Semantic Recall < Lexical Recall
+
+- Retrieved chunks often contain the answer text lexically.
+- Sentence-level semantic threshold filters many valid cases.
+- Retrieval is structurally correct; similarity threshold remains conservative.
+
+---
+
+## Conclusion
+
+- Chunking strategy has limited impact on GALE retrieval under the current hybrid setup.
+- Paragraph-based chunking (800–1500 characters) is sufficient.
+- Sliding windows increase similarity smoothness but not recall.
+- Sentence-level chunking is suboptimal for long-form medical encyclopedia text.
+- Retrieval quality appears retriever-dominated, not chunk-boundary dominated.
+
+---
+
+## Production Decision
+
+- Keep paragraph-based chunking (~1000 characters, moderate overlap).
+- Do not introduce sliding windows — no recall gain, increased index size.
+- Avoid sentence boundary chunking for encycleopedia corpora.
+
+## T9.2 — Query Rewrite Ablation
+
+### Objective
+
+Quantify the impact of query rewriting on retrieval quality and latency under the GALE benchmark.
+
+Focus:
+
+* Recall@5 improvement
+* Latency overhead
+* Cost–quality tradeoff
+* Policy design (always vs conditional)
+
+---
+
+## Experimental Setup
+
+Three policies were evaluated:
+
+1. **rewrite_off**
+   Raw query used directly.
+
+2. **rewrite_always**
+   Every query passed through LLM-based QueryWriter.
+
+3. **rewrite_conditional**
+   Rewrite triggered only if:
+
+   * Query length < 8 tokens
+   * Contains pronouns (it, this, that, they, etc.)
+
+Pipeline:
+
+Hybrid retrieval + reranker
+GALE evaluation dataset
+Containment-based Recall@5
+
+---
+
+## Results
+
+| Policy              | Recall@5 | Mean Latency (ms) |
+| ------------------- | -------- | ----------------- |
+| rewrite_off         | 0.70     | 887 ms            |
+| rewrite_always      | 0.90     | 1223 ms           |
+| rewrite_conditional | 0.88     | 1018 ms           |
+
+---
+
+## Key Findings
+
+### 1. Rewrite has major retrieval impact
+
+Recall increased:
+
+0.70 → 0.90
+
+This is a **+20 point improvement**.
+
+Rewrite is not cosmetic.
+It materially changes retrieval quality.
+
+---
+
+### 2. Latency cost is significant
+
+Rewrite_always adds ~336 ms over baseline.
+
+This is expected:
+
+* Additional LLM call
+* Additional prompt processing
+* Extra token generation
+
+---
+
+### 3. Conditional rewrite is highly efficient
+
+Recall:
+
+0.88 vs 0.90 (almost identical)
+
+Latency:
+
+1018 ms vs 1223 ms
+
+→ Saves ~200 ms
+→ Maintains near-maximum recall
+
+This indicates:
+
+Rewrite benefit is concentrated in ambiguous queries.
+
+---
+
+## Interpretation
+
+GALE questions are relatively well-formed.
+
+Yet rewrite still improves recall dramatically.
+
+This suggests:
+
+The rewrite model:
+
+* Expands terminology
+* Clarifies medical phrasing
+* Aligns query vocabulary to document language
+
+Hybrid retrieval benefits from better lexical alignment.
+
+---
+
+## Production Decision
+
+Do not disable rewrite.
+
+Use conditional rewrite policy.
+
+Rationale:
+
+* Near-max recall
+* Lower latency than always rewrite
+* Better cost control
+* Scales better under production traffic
+
+---
+
+
+## T9.3 — Reranker Comparison (Latency vs Ranking Quality)
+
+### Objective
+
+Evaluate ranking quality and latency trade-offs across multiple rerankers while keeping the rest of the retrieval stack fixed.
+
+Fixed components:
+
+* Semantic chunking
+* Hybrid retrieval (dense + BM25)
+* Conditional query rewrite
+* GALE evaluation dataset
+* Top-5 reranking
+
+Focus:
+
+* MRR (ranking quality)
+* Recall@5
+* Mean latency
+* p95 latency
+* Practical deployability
+
+---
+
+## Results
+
+| Reranker             | MRR    | Recall@5 | Mean Latency (ms) | p95 (ms) |
+| -------------------- | ------ | -------- | ----------------- | -------- |
+| cross_encoder_minilm | 0.8956 | 1.0      | 44.9              | 62.2     |
+| bge_reranker_base    | 0.9257 | 1.0      | 211.8             | 296.7    |
+| cohere_rerank        | 0.9526 | 1.0      | 7095.9            | 7203.0   |
+
+---
+
+## Observations
+
+### 1. Recall Saturation
+
+All rerankers achieved:
+
+Recall@5 = 1.0
+
+Meaning:
+
+* Retrieval stack is strong.
+* Reranker primarily improves ranking order, not recall coverage.
+
+Thus, MRR becomes the decisive metric.
+
+---
+
+### 2. Ranking Quality (MRR)
+
+MRR increases progressively:
+
+MiniLM → 0.8956
+BGE → 0.9257
+Cohere → 0.9526
+
+Relative improvements:
+
+* BGE gives ~3% MRR gain over MiniLM.
+* Cohere gives ~6% gain over MiniLM.
+* Marginal gain from BGE → Cohere is smaller than from MiniLM → BGE.
+
+Diminishing returns are visible.
+
+---
+
+### 3. Latency Explosion
+
+MiniLM: ~45 ms
+BGE: ~212 ms
+Cohere: ~7096 ms
+
+Latency multipliers:
+
+* BGE is ~4.7× slower than MiniLM.
+* Cohere is ~158× slower than MiniLM.
+
+Cohere is not viable for real-time RAG at this latency.
+
+Even without artificial 7-second delay, network + API overhead will dominate.
+
+---
+
+## Interpretation
+
+### MiniLM (Current Default)
+
+Pros:
+
+* Extremely fast
+* Stable local inference
+* No API dependency
+* Low operational complexity
+
+Cons:
+
+* Slightly lower ranking precision
+
+Best for:
+
+* Real-time production systems
+* Latency-sensitive applications
+
+---
+
+### BGE Reranker
+
+Pros:
+
+* Noticeable MRR improvement
+* Still local inference
+* No external dependency
+
+Cons:
+
+* ~5× slower than MiniLM
+* Higher CPU/GPU usage
+
+Best for:
+
+* Higher-accuracy tier
+* Offline evaluation
+* Premium accuracy mode
+
+---
+
+### Cohere Rerank
+
+Pros:
+
+* Highest MRR
+
+Cons:
+
+* Massive latency
+* External API dependency
+* Rate limits
+* Cost
+* Operational fragility
+
+Not suitable for your current architecture.
+
+---
+
+## Cost–Quality Frontier
+
+Plot mentally:
+
+MiniLM → fast / slightly lower quality
+BGE → moderate speed / better quality
+Cohere → extreme latency / small additional gain
+
+The quality increase is not proportional to latency increase.
+
+---
+
+## Production Decision
+
+Default:
+
+cross_encoder_minilm
+
+Optional advanced mode:
+
+bge_reranker_base
+
+Do not use Cohere in production for this project.
+
+---
+
+## Strategic Insight
+
+Your retrieval stack strength ranking:
+
+1. Query rewrite policy — largest impact
+2. Reranker choice — moderate impact
+3. Chunking strategy — minimal impact
+
+Retrieval quality is dominated by:
+
+* Query formulation
+* Ranking model
+
+Not chunk boundaries.
+
+---
+
+## Final Outcome
+
+Keep:
+
+```text
+Hybrid retrieval
++ Conditional rewrite
++ MiniLM reranker (default)
+```
+
+Optionally allow:
+
+```text
+--reranker=bge
+```
+
+for higher precision mode.
 

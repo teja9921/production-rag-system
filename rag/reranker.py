@@ -1,5 +1,4 @@
 from typing import List, Dict, Any, Tuple
-
 import torch
 from sentence_transformers import CrossEncoder
 
