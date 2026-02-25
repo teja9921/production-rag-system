@@ -51,12 +51,21 @@ def build_pipeline():
 
     return hybrid, reranker
 
-
+# -------------------------------------------------
+# LOAD FILES SAFELY WITHOUT CRASHING
+# -------------------------------------------------
+def load_json_robust(path: Path):
+    raw = path.read_bytes()
+    try:
+        return json.loads(raw.decode("utf-8"))
+    except UnicodeDecodeError:
+        return json.loads(raw.decode("cp1252"))
+    
 # -----------------------------
 # Evaluate Single Policy
 # -----------------------------
 def evaluate(policy_name, hybrid, reranker):
-    data = json.loads(Path(EVAL_FILE).read_text())
+    data = load_json_robust(Path(EVAL_FILE))
     rewriter = QueryWriter()
 
     hits = 0

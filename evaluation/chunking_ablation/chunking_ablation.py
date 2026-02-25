@@ -19,7 +19,7 @@ from ingestion.semantic_splitter import SemanticChunker
 # CONFIG
 # -------------------------------------------------
 PDF = "data/The_GALE_ENCYCLOPEDIA_of_MEDICINE_SECOND.pdf"
-GALE_EVAL = "evaluation/gale/evaluation_gale_final.json"
+GALE_EVAL = Path("evaluation/gale/evaluation_gale_final.json")
 OUTPUT_FILE = "evaluation/chunking_ablation/chunking_results.json"
 
 TOP_K = 5
@@ -202,7 +202,7 @@ def run():
         metrics = evaluate_chunker(
             retriever,
             embedder,
-            eval_data
+            data
         )
 
         results[name] = metrics
