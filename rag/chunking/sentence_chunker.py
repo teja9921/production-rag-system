@@ -18,16 +18,23 @@ class SentenceChunker:
             buffer = ""
 
             for sent in sentences:
-                if len(buffer) + len(sent) <= self.target_chars:
-                    buffer += " " + sent
+                sent = sent.strip()
+                if not sent:
+                    continue
+
+                sep = 1 if buffer else 0
+                if len(buffer) + sep + len(sent) <= self.target_chars:
+                    buffer = f"{buffer} {sent}" if buffer else sent
                 else:
-                    chunks.append(self._make_chunk(buffer.strip(), page["metadata"], idx))
-                    idx += 1
+                    if buffer.strip():
+                        chunks.append(self._make_chunk(buffer.strip(), page["metadata"], idx))
+                        idx += 1
                     buffer = sent
 
-            if buffer:
+            if buffer.strip():
                 chunks.append(self._make_chunk(buffer.strip(), page["metadata"], idx))
                 idx += 1
+
 
         return chunks
 

@@ -156,6 +156,15 @@ def run_chunker(chunker, pages):
         return chunker.split_pages(pages)
     return chunker.split(pages)
 
+# -------------------------------------------------
+# LOAD FILES SAFELY WITHOUT CRASHING
+# -------------------------------------------------
+def load_json_robust(path: Path):
+    raw = path.read_bytes()
+    try:
+        return json.loads(raw.decode("utf-8"))
+    except UnicodeDecodeError:
+        return json.loads(raw.decode("cp1252"))
 
 # -------------------------------------------------
 # MAIN EXPERIMENT
@@ -166,7 +175,7 @@ def run():
     pages = load_pdf(PDF)
 
     print("Loading evaluation set...")
-    eval_data = json.loads(Path(GALE_EVAL).read_text())
+    data = load_json_robust(GALE_EVAL)
 
     embedder = EmbeddingService()
 
