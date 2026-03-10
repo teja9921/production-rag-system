@@ -2,14 +2,16 @@ import csv
 import json
 import statistics
 from pathlib import Path
-from typing import List, Dict
+from typing import Dict, List
 
 from evaluation.monitoring.experiment_registry import register_experiment
 
-DATASET_VERSION = "gale_v1"
-CONFIG_ID = "bm25_v1"
-INPUT_CSV = Path("evaluation/gale/outputs/eval_outputs/bm25.csv")
-OUTPUT_JSON = Path("evaluation/gale/outputs/eval_outputs/metrics_bm25_v1.json")
+DATASET_VERSION = "myset_v1"
+CONFIG_ID = "myset_hybrid_rerank_v1"
+INPUT_CSV = Path("evaluation/myset/outputs/eval_outputs/myset_hybrid_rerank.csv")
+OUTPUT_JSON = Path(
+    "evaluation/myset/outputs/eval_outputs/metrics_myset_hybrid_rerank_v1.json"
+)
 
 
 def percentile(values: List[float], p: float) -> float:
@@ -24,14 +26,13 @@ def percentile(values: List[float], p: float) -> float:
     return values[f] + (values[c] - values[f]) * (k - f)
 
 
-def load_rows(path: str) -> List[Dict]:
+def load_rows(path: Path) -> List[Dict]:
     with open(path, newline="", encoding="utf-8") as f:
         return list(csv.DictReader(f))
 
 
 def compute_metrics(rows: List[Dict]) -> Dict:
     total = len(rows)
-
     reciprocal_ranks = []
     recall_1 = 0
     recall_3 = 0
@@ -39,15 +40,13 @@ def compute_metrics(rows: List[Dict]) -> Dict:
     latencies = []
 
     for r in rows:
-        rank = r["gold_rank"]
+        rank = str(r["gold_rank"]).strip()
         latency = float(r["latency_ms"])
-
         latencies.append(latency)
 
         if rank:
             rank = int(rank)
             reciprocal_ranks.append(1.0 / rank)
-
             if rank <= 1:
                 recall_1 += 1
             if rank <= 3:
@@ -59,15 +58,15 @@ def compute_metrics(rows: List[Dict]) -> Dict:
 
     return {
         "total_questions": total,
-        "MRR": round(sum(reciprocal_ranks) / total, 4),
-        "Recall@1": round(recall_1 / total, 4),
-        "Recall@3": round(recall_3 / total, 4),
-        "Recall@5": round(recall_5 / total, 4),
+        "MRR": round(sum(reciprocal_ranks) / total, 4) if total else 0.0,
+        "Recall@1": round(recall_1 / total, 4) if total else 0.0,
+        "Recall@3": round(recall_3 / total, 4) if total else 0.0,
+        "Recall@5": round(recall_5 / total, 4) if total else 0.0,
         "Latency_ms": {
             "p50": round(percentile(latencies, 0.50), 2),
             "p95": round(percentile(latencies, 0.95), 2),
-            "max": round(max(latencies), 2),
-            "mean": round(statistics.mean(latencies), 2),
+            "max": round(max(latencies), 2) if latencies else 0.0,
+            "mean": round(statistics.mean(latencies), 2) if latencies else 0.0,
         },
         "config_id": CONFIG_ID,
     }
@@ -78,16 +77,15 @@ def main():
     metrics = compute_metrics(rows)
 
     OUTPUT_JSON.parent.mkdir(parents=True, exist_ok=True)
-    Path(OUTPUT_JSON).write_text(
-        json.dumps(metrics, indent=2)
-    )
+    OUTPUT_JSON.write_text(json.dumps(metrics, indent=2), encoding="utf-8")
+
     register_experiment(
         dataset_version=DATASET_VERSION,
         config_id=CONFIG_ID,
         metrics=metrics,
     )
 
-    print("Metrics written to:", OUTPUT_JSON)
+    print(f"Metrics written to: {OUTPUT_JSON}")
     print(json.dumps(metrics, indent=2))
 
 

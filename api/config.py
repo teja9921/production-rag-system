@@ -3,11 +3,16 @@ from pydantic import Field
 
 class Settings(BaseSettings):
     # ===== Secrets (required) =====
+
     HF_TOKEN: str = Field(..., env="HF_TOKEN")
+    LANGSMITH_TRACING: bool | None = Field(False, env="LANGSMITH_TRACING")
+    LANGSMITH_ENDPOINT: str | None = Field(None, env="LANGSMITH_ENDPOINT")
+    LANGSMITH_API_KEY: str | None = Field(None, env="LANGSMITH_API_KEY")
+    LANGSMITH_PROJECT: str | None = Field(None, env="LANGSMITH_PROJECT")
 
     # ===== Models =====
     EMBEDDING_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"
-    LLM_MODEL_ID: str = "MiniMaxAI/MiniMax-M2.5" #"meta-llama/Meta-Llama-3-8B-Instruct" #"mistralai/Mistral-7B-Instruct-v0.2" 
+    LLM_MODEL_ID: str = "Qwen/Qwen3-Coder-480B-A35B-Instruct"#unsloth/GLM-4.7-Flash-GGUF"#mistralai/Mistral-7B-Instruct-v0 #"MiniMaxAI/MiniMax-M2.5" #"
 
     # ===== Chunking =====
     CHUNK_SIZE: int = 500
@@ -17,6 +22,10 @@ class Settings(BaseSettings):
 
     # ===== Retrieval =====
     SIMILARITY_THRESHOLD: float = 0.45
+    RERANK_SCORE_THRESHOLD: float = 0.2
+    FAILURE_SIMILARITY_THRESHOLD: float = 0.8
+    DATASET_VERSION: str = "gale_v1"
+    CONFIG_ID: str = "hybrid_conditional_minilm"
 
     # ===== Limits =====
     MAX_PROMPT_TOKENS: int = 3000
