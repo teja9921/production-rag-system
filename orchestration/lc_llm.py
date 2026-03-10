@@ -103,13 +103,42 @@ class LLMRunnable(Runnable):
                     self.logger.exception(
                         "event=LLM_FATAL | attempt=%d", attempt
                     )
-                    break
+                    usage = getattr(response, "usage", None)
+                    if usage is not None:
+                        total_tokens = getattr(usage, "total_tokens", None)
+                        if total_tokens is not None:
+                            TOKEN_USAGE.inc(total_tokens)
+                    answer = response.choices[0].message.content
+                    self.logger.info(
+                        "event=LLM_SUCCESS | attempt=%d | sources=%d | answer_len=%d",
+                        attempt,
+                        len(chunks),
+                        len(answer),
+                    )
+                    return {"answer": answer}
+                
+                except Exception as e:
+                    if self._is_timeout_error(e):
+                        TIMEOUT_COUNT.inc()
+                    if not self._should_retry(e):
+                        MODEL_FAILURE_COUNT.inc()  # fatal error
+                        self.logger.exception(
+                            "event=LLM_FATAL | attempt=%d", attempt
+                        )
+                        break
 
-                self.logger.warning(
-                    "event=LLM_RETRY | attempt=%d | error=%s",
-                    attempt,
-                    str(e)[:200],
-                )
+                    self.logger.warning(
+                        "event=LLM_RETRY | attempt=%d | error=%s",
+                        attempt,
+                        str(e)[:200],
+                    )
+                    self._backoff(attempt)
+
+            MODEL_FAILURE_COUNT.inc()
+            self.logger.error(
+                "event=LLM_DEGRADED | retries_exhausted | model=%s",
+                settings.LLM_MODEL_ID,
+            )
 
                 self._backoff(attempt)
 

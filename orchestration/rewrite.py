@@ -72,13 +72,10 @@ class QueryWriter:
 
         # Default: no rewrite
         state["rewritten_query"] = None
-
-        if rewrite_flag:
-            pass
-        elif not self._needs_rewrite(query, history):
-            return state
-
         try:
+            if not rewrite_flag and not self._needs_rewrite(query, history):
+                return state
+        
             prompt = self.user_prompt.format(
                 context=history or "",
                 query=query,

@@ -1,8 +1,8 @@
 import textwrap
 import time
 from typing import List
-from db import crud
-from db.session import get_db
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, HTTPException
 from api.schemas import (
     QueryResponse, 
@@ -17,6 +17,8 @@ from api.schemas import (
 )
 from api.agent_deps import REASONING_GRAPH
 from api.config import settings
+from db import crud
+from db.session import get_db
 from fastapi import Depends
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
@@ -24,13 +26,73 @@ from orchestration.stream_llm import StreamingLLM
 from orchestration.lc_llm import LLMRunnable
 from utils.title_generator import generate_simple_title, generate_llm_title
 from core.logger import get_logger
+from core.observability import init_observability
+from core.tracing import traced
+from core.metrics import (
+    REQUEST_COUNT, 
+    REQUEST_LATENCY, 
+    TIMEOUT_COUNT, 
+    MODEL_FAILURE_COUNT, 
+    FIRST_TOKEN_LATENCY, 
+    FAILURE_SIMILARITY_COUNT, 
+    NO_ANSWER_COUNT
+)
+from evaluation.monitoring.failure_similarity import (
+    build_failure_checker,
+    resolve_index_path,
+)
 
 logger = get_logger("api.main")
 
-app = FastAPI(title="Medical RAG API", version="0.3")
 stream_llm = StreamingLLM()
 llm = LLMRunnable()
 MAX_HISTORY_MESSAGES = 6
+
+def _is_timeout_error(exc: Exception) -> bool:
+    return "timeout" in str(exc).lower()
+
+# ---------- LANGSMITH STARTUP HOOK ----------
+
+@asynccontextmanager
+async def _lifespan(app: FastAPI):
+    # Startup logic
+    logger.info("observability_startup_begin")
+    try:
+        init_observability()
+    except Exception:
+        logger.exception("observability_startup_failed")
+        raise
+
+    global failure_checker
+    try:
+        failure_checker = build_failure_checker(
+            dataset_version=settings.DATASET_VERSION,
+            threshold=settings.FAILURE_SIMILARITY_THRESHOLD,
+        )
+        logger.info(
+            "failure_similarity_checker_ready | dataset_version=%s | index=%s | threshold=%.2f",
+            settings.DATASET_VERSION,
+            str(resolve_index_path(settings.DATASET_VERSION)),
+            settings.FAILURE_SIMILARITY_THRESHOLD,
+        )
+    except Exception:
+        failure_checker = None
+        logger.warning(
+            "failure_similarity_checker_unavailable | dataset_version=%s",
+            settings.DATASET_VERSION,
+        )
+    logger.info("observability_startup_done")
+
+    # Yield control to the app (this is critical!)
+    yield
+
+app = FastAPI(title="Medical RAG API", version="0.3", lifespan=_lifespan)
+
+# ---------- METRICS ---------------
+@app.get("/metrics")
+def metrics():
+    return Response(generate_latest(), media_type= CONTENT_TYPE_LATEST)
+
 # ---------- User ----------
 
 @app.post("/users", response_model= UserResponse)
@@ -245,14 +307,14 @@ def stream_query(
                 try: 
                     title =  generate_llm_title(payload.query, answer_accum)
                     crud.update_conversation_title(db, conversation_id, title)
-                except Exception as e:
-                    logger.warning("llm_title_genration_failed | falling back to simple_title")
+                except Exception:
+                    logger.warning("llm_title_generation_failed | falling back to simple_title")
                     #Fallback to simple title
                     try:
                         title = generate_simple_title(payload.query, 30)
                         crud.update_conversation_title(db, conversation_id, title)
                     except Exception as fallback_error:
-                        logger.warning("Fallback title generation failed: {fallback_error}")
+                        logger.warning("Fallback title generation failed:%s", fallback_error)
 
         except Exception:
             logger.exception("streaming_failed")

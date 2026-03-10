@@ -1,3 +1,4 @@
+import time
 from typing import Dict, Any
 
 from langchain_core.runnables import Runnable
@@ -5,6 +6,9 @@ from langchain_core.runnables import Runnable
 from rag.hybrid_retriever import HybridRetriever
 from rag.reranker import CrossEncoderReranker
 from core.logger import get_logger
+from core.tracing import traced
+from core.metrics import RETRIEVAL_LATENCY, RETRIEVAL_TOP1_SIMILARITY
+from api.config import settings
 
 class RetrieverRunnable(Runnable):
     """
