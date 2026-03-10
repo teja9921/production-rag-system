@@ -16,7 +16,7 @@ When making changes:
    - LLM orchestration should stay in `orchestration/`.
 3. Follow existing Python style in touched files (type hints where already used, concise docstrings, no unnecessary comments).
 4. Reuse existing configuration from `api/config.py` (`settings`) rather than hardcoding new values.
-5. Keep logging consistent with existing structured event style (for example: `event=... | key=value`).
+5. Keep logging consistent with existing structured event style; prefer pipe-separated key/value entries with spaces around pipes (for example: `event=... | key=value`).
 6. Avoid introducing new dependencies unless absolutely required.
 7. Do not refactor unrelated modules while fixing a targeted issue.
 
