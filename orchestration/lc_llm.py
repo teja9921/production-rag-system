@@ -9,12 +9,12 @@ from huggingface_hub.utils import HfHubHTTPError
 
 from api.config import settings
 from core.logger import get_logger
-from core.tracing import traced
-from core.metrics import GENERATION_LATENCY, MODEL_FAILURE_COUNT, TIMEOUT_COUNT, TOKEN_USAGE
+
 
 MAX_RETRIES = 5
 BASE_DELAY = 0.8
 MAX_DELAY = 10.0
+
 
 class LLMRunnable(Runnable):
     """
@@ -40,10 +40,6 @@ class LLMRunnable(Runnable):
         )
 
     @staticmethod
-    def _is_timeout_error(exc: Exception)-> bool:
-        return "timeout" in str(exc).lower()
-    
-    @staticmethod
     def _should_retry(exc: Exception) -> bool:
         msg = str(exc).lower()
         return (
@@ -59,7 +55,6 @@ class LLMRunnable(Runnable):
         delay += random.uniform(0, 0.3 * delay)
         time.sleep(delay)
 
-    @traced("llm_generation")
     def invoke(
         self,
         query: str,
@@ -68,74 +63,61 @@ class LLMRunnable(Runnable):
         **kwargs,
     ) -> Dict[str, Any]:
 
-        start = time.perf_counter()
+        if not chunks:
+            return {"answer": "I don’t have enough information to answer this question."}
 
-        try:
-            if not chunks:
-                return {"answer": "I don’t have enough information to answer this question."}
+        sources_text = "\n\n".join(
+            f"[Page {c['metadata']['page_number']}] {c['content']}"
+            for c in chunks
+        )
 
-            sources_text = "\n\n".join(
-                f"[Page {c['metadata']['page_number']}] {c['content']}"
-                for c in chunks
-            )
+        user_prompt = self.answer_prompt.format(
+            query=query,
+            sources=sources_text,
+        )
 
-            user_prompt = self.answer_prompt.format(
-                query=query,
-                sources=sources_text,
-            )
+        for attempt in range(MAX_RETRIES):
+            try:
+                response = self.client.chat_completion(
+                    messages=[
+                        {"role": "system", "content": self.system_prompt},
+                        {"role": "user", "content": user_prompt},
+                    ],
+                    max_tokens=settings.MAX_PROMPT_TOKENS,
+                    temperature=0.2,
+                )
 
-            for attempt in range(MAX_RETRIES):
-                try:
-                    response = self.client.chat_completion(
-                        messages=[
-                            {"role": "system", "content": self.system_prompt},
-                            {"role": "user", "content": user_prompt},
-                        ],
-                        max_tokens=settings.MAX_PROMPT_TOKENS,
-                        temperature=0.2,
+                answer = response.choices[0].message.content
+
+                self.logger.info(
+                    "event=LLM_SUCCESS | attempt=%d | sources=%d | answer_len=%d",
+                    attempt,
+                    len(chunks),
+                    len(answer),
+                )
+
+                return {"answer": answer}
+
+            except Exception as e:
+                if not self._should_retry(e):
+                    self.logger.exception(
+                        "event=LLM_FATAL | attempt=%d", attempt
                     )
-                    usage = getattr(response, "usage", None)
-                    if usage is not None:
-                        total_tokens = getattr(usage, "total_tokens", None)
-                        if total_tokens is not None:
-                            TOKEN_USAGE.inc(total_tokens)
-                    answer = response.choices[0].message.content
-                    self.logger.info(
-                        "event=LLM_SUCCESS | attempt=%d | sources=%d | answer_len=%d",
-                        attempt,
-                        len(chunks),
-                        len(answer),
-                    )
-                    return {"answer": answer}
-                
-                except Exception as e:
-                    MODEL_FAILURE_COUNT.inc()
-                    if self._is_timeout_error(e):
-                        TIMEOUT_COUNT.inc()
-                    if not self._should_retry(e):
-                        self.logger.exception(
-                            "event=LLM_FATAL | attempt=%d", attempt
-                        )
-                        break
+                    break
 
-                    self.logger.warning(
-                        "event=LLM_RETRY | attempt=%d | error=%s",
-                        attempt,
-                        str(e)[:200],
-                    )
-                    self._backoff(attempt)
-            self.logger.error(
-                "event=LLM_DEGRADED | retries_exhausted | model=%s",
-                settings.LLM_MODEL_ID,
-            )
+                self.logger.warning(
+                    "event=LLM_RETRY | attempt=%d | error=%s",
+                    attempt,
+                    str(e)[:200],
+                )
 
-            return {
-                "answer": "Model unavailable during evaluation. Answer not generated."
-            }
+                self._backoff(attempt)
 
-        finally:
-            latency_s = time.perf_counter() - start
-            GENERATION_LATENCY.observe(latency_s)
+        self.logger.error(
+            "event=LLM_DEGRADED | retries_exhausted | model=%s",
+            settings.LLM_MODEL_ID,
+        )
 
-            latency_ms = int(latency_s * 1000)
-            self.logger.info("event=LLM_LATENCY | latency_ms=%d", latency_ms)
+        return {
+            "answer": "Model unavailable during evaluation. Answer not generated."
+        }
