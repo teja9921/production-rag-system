@@ -18,7 +18,6 @@ class EmbeddingService:
     Guarantees:
     - single model instance per process
     - deterministic embeddings
-    - explicit device control
     """
 
     _model = None
@@ -27,7 +26,7 @@ class EmbeddingService:
     def __init__(self):
         try:
             if EmbeddingService._model is None:
-                device = "cpu"
+                device = settings.EMBEDDING_DEVICE.lower()
 
                 if device == "cuda":
                     if not torch.cuda.is_available():

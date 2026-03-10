@@ -13,7 +13,7 @@ def run_semantic_chunker_smoke(
 
     pages = load_pdf(pdf_path)
     chunker = SemanticChunker(max_chars=1000, min_chars=100)
-    chunks = chunker._split_pages(pages)
+    chunks = chunker.split_pages(pages)
 
     print(f"Pages: {len(pages)}")
     print(f"Chunks: {len(chunks)}")

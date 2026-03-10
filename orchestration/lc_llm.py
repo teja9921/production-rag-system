@@ -109,10 +109,10 @@ class LLMRunnable(Runnable):
                     return {"answer": answer}
                 
                 except Exception as e:
-                    MODEL_FAILURE_COUNT.inc()
                     if self._is_timeout_error(e):
                         TIMEOUT_COUNT.inc()
                     if not self._should_retry(e):
+                        MODEL_FAILURE_COUNT.inc()  # fatal error
                         self.logger.exception(
                             "event=LLM_FATAL | attempt=%d", attempt
                         )
@@ -124,6 +124,8 @@ class LLMRunnable(Runnable):
                         str(e)[:200],
                     )
                     self._backoff(attempt)
+
+            MODEL_FAILURE_COUNT.inc()
             self.logger.error(
                 "event=LLM_DEGRADED | retries_exhausted | model=%s",
                 settings.LLM_MODEL_ID,
