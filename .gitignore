@@ -48,7 +48,6 @@ Thumbs.db
 rag_chatbot_architecture.tsx
 dummy_deps.txt
 logging_comment/
-tests/
 
 Sprint8.md
 hitrate_check.py
@@ -65,4 +64,10 @@ evaluation/**/raw/
 
 # model caches if any
 evaluation/**/cache/
+
+# Redundant files
+*.md
+!DOCUMENTATION.md
+.tsx
+*.npy
 
