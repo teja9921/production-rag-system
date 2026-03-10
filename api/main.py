@@ -246,13 +246,13 @@ def stream_query(
                     title =  generate_llm_title(payload.query, answer_accum)
                     crud.update_conversation_title(db, conversation_id, title)
                 except Exception as e:
-                    logger.warning("llm_title_genration_failed | falling back to simple_title")
+                    logger.warning("llm_title_generation_failed | falling back to simple_title")
                     #Fallback to simple title
                     try:
                         title = generate_simple_title(payload.query, 30)
                         crud.update_conversation_title(db, conversation_id, title)
                     except Exception as fallback_error:
-                        logger.warning("Fallback title generation failed: {fallback_error}")
+                        logger.warning("Fallback title generation failed: %s", fallback_error)
 
         except Exception:
             logger.exception("streaming_failed")

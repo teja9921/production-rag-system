@@ -7,7 +7,7 @@ class Settings(BaseSettings):
 
     # ===== Models =====
     EMBEDDING_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"
-    LLM_MODEL_ID: str = "MiniMaxAI/MiniMax-M2.5" #"meta-llama/Meta-Llama-3-8B-Instruct" #"mistralai/Mistral-7B-Instruct-v0.2" 
+    LLM_MODEL_ID: str = "MiniMaxAI/MiniMax-M2.5"
 
     # ===== Chunking =====
     CHUNK_SIZE: int = 500

@@ -27,7 +27,7 @@ class EmbeddingService:
     def __init__(self):
         try:
             if EmbeddingService._model is None:
-                device = "cpu"
+                device = settings.EMBEDDING_DEVICE
 
                 if device == "cuda":
                     if not torch.cuda.is_available():
