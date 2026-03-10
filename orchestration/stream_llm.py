@@ -1,11 +1,9 @@
+from huggingface_hub import InferenceClient
+from api.config import settings
 from pathlib import Path
 from typing import List, Dict, Any, Iterable
 import textwrap
-import time
-from huggingface_hub import InferenceClient
-from api.config import settings
 from core.logger import get_logger
-from core.tracing import traced
 
 
 class StreamingLLM:
@@ -22,25 +20,22 @@ class StreamingLLM:
 
         self.logger = get_logger("llm.streaming")
 
-    @traced("streaming_llm")
     def stream(self, query: str, chunks: List[Dict[str, Any]]) -> Iterable[str]:
-        
-        start = time.perf_counter()
+        if not chunks:
+            yield "I don’t have enough information to answer this question."
+            return
+
+        sources_text = "\n\n".join(
+            f"[Page {c['metadata']['page_number']}] {c['content']}"
+            for c in chunks
+        )
+
+        user_prompt = self.answer_prompt.format(
+            query=query,
+            sources=textwrap.shorten(sources_text, 3000),
+        )
+
         try:
-            if not chunks:
-                yield "I don’t have enough information to answer this question."
-                return
-
-            sources_text = "\n\n".join(
-                f"[Page {c['metadata']['page_number']}] {c['content']}"
-                for c in chunks
-            )
-
-            user_prompt = self.answer_prompt.format(
-                query=query,
-                sources=textwrap.shorten(sources_text, 3000),
-            )
-
             stream = self.client.chat_completion(
                 messages=[
                     {"role": "system", "content": self.system_prompt},
@@ -60,7 +55,3 @@ class StreamingLLM:
         except Exception as e:
             self.logger.error("event=LLM_STREAM_ERROR | error=%s", str(e))
             yield "⚠️ The model is currently unavailable."
-
-        finally:
-            latency_ms = int((time.perf_counter() - start) * 1000)
-            self.logger.info("event=LLM_STREAM_LATENCY | latency_ms=%d", latency_ms)

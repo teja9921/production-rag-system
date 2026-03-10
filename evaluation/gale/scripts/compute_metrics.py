@@ -4,12 +4,8 @@ import statistics
 from pathlib import Path
 from typing import List, Dict
 
-from evaluation.monitoring.experiment_registry import register_experiment
-
-DATASET_VERSION = "gale_v1"
-CONFIG_ID = "bm25_v1"
-INPUT_CSV = Path("evaluation/gale/outputs/eval_outputs/bm25.csv")
-OUTPUT_JSON = Path("evaluation/gale/outputs/eval_outputs/metrics_bm25_v1.json")
+INPUT_CSV = Path("evaluation/eval_outputs/bm25.csv")
+OUTPUT_JSON = Path("evaluation/eval_outputs/metrics_bm25_v1.json")
 
 
 def percentile(values: List[float], p: float) -> float:
@@ -69,7 +65,7 @@ def compute_metrics(rows: List[Dict]) -> Dict:
             "max": round(max(latencies), 2),
             "mean": round(statistics.mean(latencies), 2),
         },
-        "config_id": CONFIG_ID,
+        "config_id": #bm25_v1, bm25_rerank_v1, dense_v1, dense_rerank_v1, hybrid_v1, hybrid_rerank_v1 
     }
 
 
@@ -77,14 +73,8 @@ def main():
     rows = load_rows(INPUT_CSV)
     metrics = compute_metrics(rows)
 
-    OUTPUT_JSON.parent.mkdir(parents=True, exist_ok=True)
     Path(OUTPUT_JSON).write_text(
         json.dumps(metrics, indent=2)
-    )
-    register_experiment(
-        dataset_version=DATASET_VERSION,
-        config_id=CONFIG_ID,
-        metrics=metrics,
     )
 
     print("Metrics written to:", OUTPUT_JSON)
