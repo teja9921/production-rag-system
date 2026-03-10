@@ -12,7 +12,7 @@ class Settings(BaseSettings):
 
     # ===== Models =====
     EMBEDDING_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"
-    LLM_MODEL_ID: str = "Qwen/Qwen3-Coder-480B-A35B-Instruct"#unsloth/GLM-4.7-Flash-GGUF"#mistralai/Mistral-7B-Instruct-v0 #"MiniMaxAI/MiniMax-M2.5" #"
+    LLM_MODEL_ID: str = "Qwen/Qwen3-Coder-480B-A35B-Instruct"
 
     # ===== Chunking =====
     CHUNK_SIZE: int = 500

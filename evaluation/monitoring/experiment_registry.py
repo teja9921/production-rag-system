@@ -1,7 +1,6 @@
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
-
 
 REGISTRY_PATH = Path("evaluation/experiment_registry.json")
 
@@ -29,7 +28,7 @@ def register_experiment(
 
     registry[dataset_version][config_id] = {
         "metrics": metrics,
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
     _save_registry(registry)

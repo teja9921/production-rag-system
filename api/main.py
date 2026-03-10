@@ -1,8 +1,8 @@
 import textwrap
 import time
 from typing import List
-from db import crud
-from db.session import get_db
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, HTTPException
 from api.schemas import (
     QueryResponse, 
@@ -17,6 +17,8 @@ from api.schemas import (
 )
 from api.agent_deps import REASONING_GRAPH
 from api.config import settings
+from db import crud
+from db.session import get_db
 from fastapi import Depends
 from fastapi.responses import StreamingResponse, Response
 from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
@@ -27,7 +29,15 @@ from utils.title_generator import generate_simple_title, generate_llm_title
 from core.logger import get_logger
 from core.observability import init_observability
 from core.tracing import traced
-from core.metrics import *
+from core.metrics import (
+    REQUEST_COUNT, 
+    REQUEST_LATENCY, 
+    TIMEOUT_COUNT, 
+    MODEL_FAILURE_COUNT, 
+    FIRST_TOKEN_LATENCY, 
+    FAILURE_SIMILARITY_COUNT, 
+    NO_ANSWER_COUNT
+)
 from evaluation.monitoring.failure_similarity import (
     build_failure_checker,
     resolve_index_path,
@@ -35,7 +45,6 @@ from evaluation.monitoring.failure_similarity import (
 
 logger = get_logger("api.main")
 
-app = FastAPI(title="Medical RAG API", version="0.3")
 stream_llm = StreamingLLM()
 llm = LLMRunnable()
 failure_checker = None
@@ -45,14 +54,17 @@ def _is_timeout_error(exc: Exception) -> bool:
     return "timeout" in str(exc).lower()
 
 # ---------- LANGSMITH STARTUP HOOK ----------
-@app.on_event("startup")
-def _startup_observability():
+
+@asynccontextmanager
+async def _lifespan(app: FastAPI):
+    # Startup logic
     logger.info("observability_startup_begin")
     try:
         init_observability()
     except Exception:
         logger.exception("observability_startup_failed")
         raise
+
     global failure_checker
     try:
         failure_checker = build_failure_checker(
@@ -72,6 +84,11 @@ def _startup_observability():
             settings.DATASET_VERSION,
         )
     logger.info("observability_startup_done")
+
+    # Yield control to the app (this is critical!)
+    yield
+
+app = FastAPI(title="Medical RAG API", version="0.3", lifespan=_lifespan)
 
 # ---------- METRICS ---------------
 @app.get("/metrics")
@@ -337,13 +354,13 @@ def stream_query(
                     title =  generate_llm_title(payload.query, answer_accum)
                     crud.update_conversation_title(db, conversation_id, title)
                 except Exception:
-                    logger.warning("llm_title_genration_failed | falling back to simple_title")
+                    logger.warning("llm_title_generation_failed | falling back to simple_title")
                     #Fallback to simple title
                     try:
                         title = generate_simple_title(payload.query, 30)
                         crud.update_conversation_title(db, conversation_id, title)
                     except Exception as fallback_error:
-                        logger.warning("Fallback title generation failed: {fallback_error}")
+                        logger.warning("Fallback title generation failed:%s", fallback_error)
 
         except Exception as e:
             MODEL_FAILURE_COUNT.inc()

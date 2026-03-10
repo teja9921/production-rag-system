@@ -1,6 +1,7 @@
 import csv
 import json
 import time
+import logging
 from pathlib import Path
 from typing import Dict, List, Optional
 
@@ -18,6 +19,17 @@ OUTPUT_FILE = Path("evaluation/myset/outputs/eval_outputs/myset_hybrid_rerank.cs
 PDFS = ["data/myset_source.pdf"]
 TOP_K = 5
 CONFIG_ID = "myset_hybrid_rerank_v1"
+
+# Explicit schema for CSV output
+FIELDNAMES = [
+    "question_id", "question", "difficulty",
+    "gold_rank", "reciprocal_rank",
+    "recall@1", "recall@3", "recall@5",
+    "latency_ms", "config_id"
+]
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 
 def compute_ranks(retrieved_ids: List[str], gold_id: str) -> Optional[int]:
@@ -87,7 +99,7 @@ def main():
                 "question": question,
                 "difficulty": difficulty,
                 "gold_rank": rank if rank is not None else "",
-                "reciprocal_rank": 1.0 / rank if rank else 0.0,
+                "reciprocal_rank": 1.0 / rank if rank is not None else 0.0,
                 "recall@1": recall_at_k(rank, 1),
                 "recall@3": recall_at_k(rank, 3),
                 "recall@5": recall_at_k(rank, 5),
@@ -96,13 +108,16 @@ def main():
             }
         )
 
-    OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
-    with open(OUTPUT_FILE, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=results[0].keys())
-        writer.writeheader()
-        writer.writerows(results)
+    if results:
+        OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
+        with open(OUTPUT_FILE, "w", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=FIELDNAMES)
+            writer.writeheader()
+            writer.writerows(results)
 
-    print(f"Saved results -> {OUTPUT_FILE}")
+        logger.info("Saved results -> %s", OUTPUT_FILE)
+    else:
+        logger.warning("No results to write, skipping CSV output.")
 
 
 if __name__ == "__main__":
