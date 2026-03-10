@@ -37,7 +37,7 @@ class EmbeddingService:
                         device = "cpu"
 
                 EmbeddingService._device = device
-
+                model_kwargs = {"dtype": torch.float16} if device == "cuda" else {}
                 logger.info(
                     "event=EMBEDDER_INIT | model=%s | device=%s",
                     settings.EMBEDDING_MODEL,
@@ -47,6 +47,7 @@ class EmbeddingService:
                 EmbeddingService._model = SentenceTransformer(
                     settings.EMBEDDING_MODEL,
                     device=device,
+                    model_kwargs= model_kwargs
                 )
 
             self.model = EmbeddingService._model
@@ -69,7 +70,7 @@ class EmbeddingService:
         try:
             embeddings = self.model.encode(
                 texts,
-                batch_size=32,
+                batch_size=16,
                 show_progress_bar=False,
                 convert_to_tensor=True,
                 normalize_embeddings=True,

@@ -1287,3 +1287,259 @@ Optionally allow:
 
 for higher precision mode.
 
+# 22 --- Observability + Runtime Monitoring (Sprint 10)
+
+## Objective
+
+Introduce a production-grade observability stack for the RAG system to
+enable:
+
+-   request-level debugging
+-   system health monitoring
+-   continuous quality awareness
+
+The observability architecture was implemented in three layers, each
+serving a distinct purpose.
+
+------------------------------------------------------------------------
+
+## T10.1 --- Layer 1: Traceability (LangSmith)
+
+### Purpose
+
+Enable per-request inspection of the RAG pipeline to understand:
+
+-   how queries are processed
+-   what documents are retrieved
+-   how prompts are constructed
+-   where latency occurs
+
+Tracing provides deep debugging visibility.
+
+### Implementation
+
+LangSmith tracing was enabled and integrated with the reasoning
+pipeline.
+
+Instrumentation added to:
+
+-   Query rewriting
+-   Retrieval
+-   Reranking
+-   LLM generation
+-   Streaming responses
+-   API endpoints
+
+Each trace captures:
+
+-   query input
+-   rewritten query
+-   retrieved chunks
+-   prompts
+-   model outputs
+-   node-level latency
+-   configuration metadata
+
+Trace metadata includes:
+
+-   config_id
+-   dataset_version
+-   chunker
+-   reranker
+-   rewrite_policy
+
+Example configuration tag:
+
+hybrid_conditional_minilm
+
+### Outcome
+
+LangSmith UI now shows full request execution graphs:
+
+query_endpoint ├─ query_rewrite ├─ retrieval └─ llm_generation
+
+Developers can inspect:
+
+-   prompts
+-   retrieved documents
+-   model responses
+-   latency breakdown
+
+This enables rapid debugging of RAG behavior.
+
+------------------------------------------------------------------------
+
+## T10.2 --- Layer 2: Metrics Monitoring (Prometheus + Grafana)
+
+### Purpose
+
+Provide continuous system health monitoring across all requests.
+
+Metrics capture operational behavior over time rather than individual
+requests.
+
+### Metrics Exposed
+
+The API exposes a /metrics endpoint for Prometheus scraping.
+
+Metrics include:
+
+#### Request Metrics
+
+-   rag_requests_total
+-   rag_request_latency_seconds
+
+#### Retrieval Metrics
+
+-   rag_retrieval_latency_seconds
+-   rag_top1_similarity
+
+#### Generation Metrics
+
+-   rag_generation_latency_seconds
+-   rag_first_token_latency_seconds
+
+#### Quality Metrics
+
+-   rag_no_answer_total
+
+#### Failure Metrics
+
+-   rag_model_failure_total
+-   rag_timeout_total
+
+#### Token Usage
+
+-   rag_tokens_used_total
+
+#### Evaluation Awareness
+
+-   rag_queries_similar_to_eval_failures_total
+
+### Monitoring Infrastructure
+
+Runtime stack deployed using Docker:
+
+RAG API\
+↓\
+Prometheus (metrics scraping)\
+↓\
+Grafana (dashboard visualization)
+
+Grafana dashboards display:
+
+-   request throughput
+-   p95 request latency
+-   p95 retrieval latency
+-   p95 generation latency
+-   streaming first-token latency
+-   NO_ANSWER rate
+-   model failure rate
+-   timeout rate
+-   token throughput
+-   retrieval similarity trends
+
+### Outcome
+
+Layer 2 provides real-time monitoring of system health and performance.
+
+------------------------------------------------------------------------
+
+## T10.3 --- Layer 3: Continuous Quality Awareness
+
+### Purpose
+
+Connect offline evaluation benchmarks with live production traffic.
+
+This layer detects when real user queries resemble known evaluation
+weaknesses.
+
+------------------------------------------------------------------------
+
+### 1 --- Evaluation Registry
+
+Every evaluation run is recorded in:
+
+evaluation/experiment_registry.json
+
+Registry structure:
+
+dataset_version └ config_id └ metrics └ timestamp
+
+Example:
+
+gale_v1 hybrid_conditional_minilm
+
+This enables:
+
+-   benchmark history tracking
+-   regression detection
+-   model upgrade validation
+
+------------------------------------------------------------------------
+
+### 2 --- Failure Similarity Monitoring
+
+GALE evaluation failures are extracted and embedded into a FAISS index.
+
+Runtime queries are compared against these failure embeddings.
+
+If a query is similar to known benchmark failures:
+
+rag_queries_similar_to_eval_failures_total
+
+is incremented.
+
+This allows the system to detect when real users trigger known RAG
+weaknesses.
+
+------------------------------------------------------------------------
+
+### 3 --- Retrieval Drift Monitoring
+
+Retrieval similarity is monitored continuously using:
+
+rag_top1_similarity
+
+This metric tracks the similarity score of the top retrieved document.
+
+A sustained decrease in similarity may indicate:
+
+-   embedding drift
+-   corpus mismatch
+-   retrieval degradation
+
+This provides early warning of quality degradation before recall drops
+significantly.
+
+------------------------------------------------------------------------
+
+## Observability Architecture Summary
+
+  Layer     Capability             Purpose
+  --------- ---------------------- ------------------------------
+  Layer 1   LangSmith tracing      request-level debugging
+  Layer 2   Prometheus + Grafana   system health monitoring
+  Layer 3   evaluation linkage     continuous quality awareness
+
+Together these layers enable:
+
+-   debugging individual RAG decisions
+-   monitoring production performance
+-   detecting real-world failure patterns
+-   tracking model quality over time
+
+------------------------------------------------------------------------
+
+## Outcome of Sprint 10
+
+The RAG system now includes a complete observability framework covering:
+
+-   traceability
+-   operational monitoring
+-   evaluation-driven quality awareness
+
+This infrastructure enables safe experimentation and reliable production
+deployment.
+
+
