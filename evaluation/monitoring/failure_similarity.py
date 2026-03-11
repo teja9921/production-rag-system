@@ -26,7 +26,7 @@ class FailureSimilarityChecker:
         self.index = faiss.read_index(str(self.index_path))
 
     def is_similar(self, query: str) -> bool:
-        vec = self.embedder.embed_texts([query]).cpu().numpy()
+        vec = self.embedder.embed_texts([query]).cpu().numpy().astype("float32")
         self.faiss.normalize_L2(vec)
         distances, _ = self.index.search(vec, 1)
         similarity = float(distances[0][0])  # inner product on normalized vectors
