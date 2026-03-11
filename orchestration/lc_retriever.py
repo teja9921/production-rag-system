@@ -37,12 +37,6 @@ class RetrieverRunnable(Runnable):
             query = state.get("rewritten_query") or state["query"]
 
             status, chunks, scores = self.retriever.search(query)
-            if scores:
-                if isinstance(scores, dict):
-                    top1 = max(scores.values())
-                else:
-                    top1 = scores[0]
-                RETRIEVAL_TOP1_SIMILARITY.observe(float(top1))
 
             if status == "NO_ANSWER":
                 self.logger.info(
@@ -70,6 +64,8 @@ class RetrieverRunnable(Runnable):
                 }
 
             top1_rerank = float(reranked_chunks[0].get("rerank_score", -1e9))
+            RETRIEVAL_TOP1_SIMILARITY.observe(float(top1_rerank))
+
             if top1_rerank < settings.RERANK_SCORE_THRESHOLD:
                 self.logger.info(
                     "event=RETRIEVAL_NO_ANSWER | reason=top1_below_rerank_threshold | top1=%.4f | threshold=%.4f",
