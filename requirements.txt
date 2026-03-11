@@ -27,5 +27,9 @@ types-requests
 
 langchain-core
 langgraph
+langsmith
 
 rank-bm25
+
+#observability
+prometheus-client

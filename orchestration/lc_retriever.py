@@ -1,10 +1,15 @@
-from typing import Dict, Any
+import time
+from typing import Any, Dict
 
 from langchain_core.runnables import Runnable
 
+from api.config import settings
+from core.logger import get_logger
+from core.metrics import RETRIEVAL_LATENCY, RETRIEVAL_TOP1_SIMILARITY
+from core.tracing import traced
 from rag.hybrid_retriever import HybridRetriever
 from rag.reranker import CrossEncoderReranker
-from core.logger import get_logger
+
 
 class RetrieverRunnable(Runnable):
     """
@@ -20,6 +25,7 @@ class RetrieverRunnable(Runnable):
         self.reranker = reranker
         self.logger = get_logger("orchestration.retriever")
 
+    @traced("retrieval")
     def invoke(
         self,
         state: Dict[str, Any],
@@ -27,35 +33,99 @@ class RetrieverRunnable(Runnable):
         **kwargs,
     ) -> Dict[str, Any]:
 
-        query = state.get("rewritten_query") or state["query"]
+        start = time.perf_counter()
+        try:
+            query = state.get("rewritten_query") or state["query"]
 
-        status, chunks, scores = self.retriever.search(query)
+            status, chunks, scores = self.retriever.search(query)
 
-        if status == "NO_ANSWER":
-            self.logger.info(
-                "event=RETRIEVAL_NO_ANSWER | query_len=%d",
-                len(query),
+            if status == "NO_ANSWER":
+                self.logger.info(
+                    "event=RETRIEVAL_NO_ANSWER | query_len=%d",
+                    len(query),
+                )
+                return {
+                    "status": "NO_ANSWER",
+                    "retrieved_chunks": [],
+                    "retrieval_scores": {},
+                }
+
+            reranked_chunks = self.reranker.rerank(
+                query=query,
+                chunks=chunks,
+                top_k=5,
             )
+
+            if not reranked_chunks:
+                self.logger.info("event=RETRIEVAL_NO_ANSWER | reason=empty_rerank")
+                return {
+                    "status": "NO_ANSWER",
+                    "retrieved_chunks": [],
+                    "retrieval_scores": scores,
+                }
+
+            top1_rerank = float(reranked_chunks[0].get("rerank_score", -1e9))
+            RETRIEVAL_TOP1_SIMILARITY.observe(float(top1_rerank))
+
+            if top1_rerank < settings.RERANK_SCORE_THRESHOLD:
+                self.logger.info(
+                    "event=RETRIEVAL_NO_ANSWER | reason=top1_below_rerank_threshold | top1=%.4f | threshold=%.4f",
+                    top1_rerank,
+                    settings.RERANK_SCORE_THRESHOLD,
+                )
+                return {
+                    "status": "NO_ANSWER",
+                    "retrieved_chunks": [],
+                    "retrieval_scores": scores,
+                }
+
+            second_rerank = None
+            if len(reranked_chunks) > 1:
+                second_rerank = float(reranked_chunks[1].get("rerank_score", -1e9))
+
+            score_gap = None
+            if second_rerank is not None:
+                score_gap = top1_rerank - second_rerank
+                if score_gap < settings.RERANK_SCORE_GAP_THRESHOLD:
+                    self.logger.info(
+                        "event=RETRIEVAL_NO_ANSWER | reason=low_rerank_gap | top1=%.4f | top2=%.4f | gap=%.4f | gap_threshold=%.4f",
+                        top1_rerank,
+                        second_rerank,
+                        score_gap,
+                        settings.RERANK_SCORE_GAP_THRESHOLD,
+                    )
+                    return {
+                        "status": "NO_ANSWER",
+                        "retrieved_chunks": [],
+                        "retrieval_scores": scores,
+                    }
+
+            gated_chunks = [
+                c
+                for c in reranked_chunks
+                if float(c.get("rerank_score", -1e9)) >= settings.RERANK_SCORE_THRESHOLD
+            ]
+
+            self.logger.info(
+                "event=RETRIEVAL_COMPLETE | initial=%d | reranked=%d | gated=%d | top1=%.4f | top2=%s | gap=%s | rerank_threshold=%.4f | gap_threshold=%.4f",
+                len(chunks),
+                len(reranked_chunks),
+                len(gated_chunks),
+                top1_rerank,
+                f"{second_rerank:.4f}" if second_rerank is not None else "NA",
+                f"{score_gap:.4f}" if score_gap is not None else "NA",
+                settings.RERANK_SCORE_THRESHOLD,
+                settings.RERANK_SCORE_GAP_THRESHOLD,
+            )
+
             return {
-                "status": "NO_ANSWER",
-                "retrieved_chunks": [],
-                "retrieval_scores": {},
+                "status": "ANSWER",
+                "retrieved_chunks": gated_chunks,
+                "retrieval_scores": scores,
             }
 
-        reranked_chunks = self.reranker.rerank(
-            query=query,
-            chunks=chunks,
-            top_k=5,
-        )
-
-        self.logger.info(
-            "event=RETRIEVAL_COMPLETE | initial=%d | reranked=%d",
-            len(chunks),
-            len(reranked_chunks),
-        )
-
-        return {
-            "status": "ANSWER",
-            "retrieved_chunks": reranked_chunks,
-            "retrieval_scores": scores,
-        }
+        finally:
+            latency_s = time.perf_counter() - start
+            RETRIEVAL_LATENCY.observe(latency_s)
+            latency_ms = int(latency_s * 1000)
+            self.logger.info("event=RETRIEVAL_LATENCY | latency_ms=%d", latency_ms)

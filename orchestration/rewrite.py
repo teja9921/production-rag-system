@@ -2,6 +2,9 @@ from orchestration.state import GraphState
 from api.config import settings
 from pathlib import Path
 from huggingface_hub import InferenceClient
+from core.tracing import traced
+import time
+from core.logger import get_logger
 import re
 
 
@@ -21,7 +24,7 @@ class QueryWriter:
         base = Path("prompts/v2")
         self.system_prompt = (base / "rewrite_system.txt").read_text()
         self.user_prompt = (base / "rewrite_user.txt").read_text()
-
+        self.logger = get_logger("orchestration.rewrite")
         # Cheap linguistic signals
         self.pronoun_pattern = re.compile(r"\b(it|they|that|this|those|these|he|she)\b", re.I)
         self.vague_opening_pattern = re.compile(
@@ -66,19 +69,19 @@ class QueryWriter:
 
         return False
 
+    @traced("query_rewrite")
     def __call__(self, state: GraphState, rewrite_flag: bool = False) -> GraphState:
+        start = time.perf_counter()
+
         query = state["query"]
         history = state.get("history")
 
         # Default: no rewrite
         state["rewritten_query"] = None
-
-        if rewrite_flag:
-            pass
-        elif not self._needs_rewrite(query, history):
-            return state
-
         try:
+            if not rewrite_flag and not self._needs_rewrite(query, history):
+                return state
+        
             prompt = self.user_prompt.format(
                 context=history or "",
                 query=query,
@@ -98,9 +101,14 @@ class QueryWriter:
             # Safety: empty or nonsense rewrite → ignore
             if rewritten and rewritten.lower() != query.lower():
                 state["rewritten_query"] = rewritten
+            
+            return state
 
         except Exception:
             # Rewrite failure must NEVER break the graph
             state["rewritten_query"] = None
-
-        return state
+            return state
+        
+        finally:
+            latency_ms = int((time.perf_counter() - start) * 1000)
+            self.logger.info("event=REWRITE_LATENCY | latency_ms=%d", latency_ms)

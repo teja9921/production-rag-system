@@ -1,17 +1,41 @@
 # -----------------------------
-# Python / Environment
+# Python caches / build artifacts
 # -----------------------------
-.venv/
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.log
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+dist/
+build/
+*.egg-info/
 
 # -----------------------------
-# Environment variables
+# Virtual environments
+# -----------------------------
+.venv/
+venv/
+env/
+
+# -----------------------------
+# Environment / secrets
 # -----------------------------
 .env
+.env.*
+!.env.example
+
+# -----------------------------
+# Logs / temp files
+# -----------------------------
+*.log
+logs/
+*.tmp
+*.temp
 
 # -----------------------------
 # Local databases
@@ -21,48 +45,44 @@ rag_app.db
 *.sqlite3
 
 # -----------------------------
-# Data & Vector Stores
+# Editor / OS noise
+# -----------------------------
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.ipynb_checkpoints/
+
+# -----------------------------
+# Data and model/index artifacts (local, reproducible)
 # -----------------------------
 data/
 vectorstore/
 *.faiss
 *.index
 *.pkl
+*.npy
 
 # -----------------------------
-# Dev / test scripts
+# Evaluation generated artifacts
+# Keep datasets and scripts tracked; ignore generated outputs only.
 # -----------------------------
-run_graph.py
-create_db.py
-test_db.py
-test_retrieval.py
-ingestion/sample_script.py
-
-# -----------------------------
-# OS / Editor noise
-# -----------------------------
-.DS_Store
-Thumbs.db
-.vscode/
-.idea/
-rag_chatbot_architecture.tsx
-dummy_deps.txt
-logging_comment/
-tests/
-
-Sprint8.md
-hitrate_check.py
-further sprints plan.md
-
-# evaluation outputs
 evaluation/**/outputs/
-evaluation/**/*.csv
-evaluation/**/*.log
-
-# large intermediate generation artifacts
 evaluation/**/generated/
 evaluation/**/raw/
-
-# model caches if any
 evaluation/**/cache/
+evaluation/**/eval_outputs/
+evaluation/**/*.csv
+evaluation/**/*.log
+evaluation/**/*_failure.index
+evaluation/**/*_failure_meta.npy
+evaluation/**/*_failures.json
+
+# ------------------------------
+# redundant files
+# ------------------------------
+*.md 
+!DOCUMENTATION.md
+!README.md
+tests/
 
