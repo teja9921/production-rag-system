@@ -11,11 +11,11 @@ def traced(name: str, run_type: str = "chain"):
         @wraps(fn)
         def _wrapped(*args, **kwargs):
             # Lazily initialize traced_fn once observability is ready
-            if "traced_fn" not in traced_fn_cache:
+            if "traced_fn" not in traced_fn_cache and is_tracing_enabled():
                 traced_fn_cache["traced_fn"] = get_traceable()(name=name, run_type=run_type)(fn)
 
-            traced_fn = traced_fn_cache["traced_fn"]
-            
+            traced_fn = traced_fn_cache.get("traced_fn", fn)
+
             if inspect.isgeneratorfunction(fn):
                 def generator_wrapper(*args, **kwargs):
                     if is_tracing_enabled():

@@ -58,11 +58,11 @@ def _is_timeout_error(exc: Exception) -> bool:
 @asynccontextmanager
 async def _lifespan(app: FastAPI):
     # Startup logic
-    logger.info("observability_startup_begin")
+    logger.info("event=OBSERVABILITY_STARTUP_BEGIN")
     try:
         init_observability()
     except Exception:
-        logger.exception("observability_startup_failed")
+        logger.exception("event=OBSERVABILITY_STARTUP_FAILED")
         raise
 
     global failure_checker
@@ -208,9 +208,9 @@ def query_conversation(
             for c in result.get("retrieved_chunks", [])      
         ]
         
-        result = llm.invoke(payload.query, result["retrieved_chunks"])
+        llm_result = llm.invoke(payload.query, result["retrieved_chunks"])
         
-        crud.add_message(db, conversation_id, "assistant", result["answer"])
+        crud.add_message(db, conversation_id, "assistant", llm_result["answer"])
 
         if convo.title is None:
             crud.update_conversation_title(
@@ -221,7 +221,7 @@ def query_conversation(
 
         return QueryResponse(
         status = "ANSWER",
-        answer = result["answer"],
+        answer = llm_result["answer"],
         sources = sources,
         )
     

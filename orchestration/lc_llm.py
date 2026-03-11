@@ -111,8 +111,7 @@ class LLMRunnable(Runnable):
                 except Exception as e:
                     if self._is_timeout_error(e):
                         TIMEOUT_COUNT.inc()
-                    if not self._should_retry(e):
-                        MODEL_FAILURE_COUNT.inc()  # fatal error
+                    if not self._should_retry(e): # fatal error
                         self.logger.exception(
                             "event=LLM_FATAL | attempt=%d", attempt
                         )

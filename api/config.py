@@ -1,5 +1,6 @@
-from pydantic_settings import BaseSettings
 from pydantic import Field
+from pydantic_settings import BaseSettings
+
 
 class Settings(BaseSettings):
     # ===== Secrets (required) =====
@@ -22,7 +23,8 @@ class Settings(BaseSettings):
 
     # ===== Retrieval =====
     SIMILARITY_THRESHOLD: float = 0.45
-    RERANK_SCORE_THRESHOLD: float = 0.2
+    RERANK_SCORE_THRESHOLD: float = -7
+    RERANK_SCORE_GAP_THRESHOLD: float = 0.15
     FAILURE_SIMILARITY_THRESHOLD: float = 0.8
     DATASET_VERSION: str = "gale_v1"
     CONFIG_ID: str = "hybrid_conditional_minilm"
@@ -39,9 +41,11 @@ class Settings(BaseSettings):
 
     # ===== CHAT HISTORY ======
     MAX_HISTORY_MESSAGES: int = 6
+
     class Config:
         env_file = ".env"
         case_sensitive = True
-        extra = allow
+        extra = "allow"
+
 
 settings = Settings()
